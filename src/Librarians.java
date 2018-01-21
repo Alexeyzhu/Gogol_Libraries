@@ -22,7 +22,12 @@ public class Librarians extends Users {
     private JComboBox list = new JComboBox(items);
 
     Librarians() {
-        super();
+
+        ChoiceBox();
+    }
+
+    private void createPage(){
+
         this.setBounds(0, 0, 640, 420);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,8 +64,11 @@ public class Librarians extends Users {
         cancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                ChoiceBox();
+
                 dispose();
-                new LogIn().setVisible(true);
+
             }
         });
         container.add(cancel);
@@ -78,5 +86,32 @@ public class Librarians extends Users {
             JOptionPane.showMessageDialog(null, message, "User Card", JOptionPane.PLAIN_MESSAGE);
 
         }
+    }
+
+
+    private void ChoiceBox(){
+        JFrame frame = new JFrame("Glib");
+        frame.setBounds(0,0, 250,250);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new GridLayout(3,3,2,2));
+
+        JButton add = new JButton("Add a book");
+        JButton modify = new JButton("Modify Library");
+        JButton create = new JButton("Create user");
+
+
+        frame.add(add);
+        frame.add(modify);
+        frame.add(create);
+        frame.setVisible(true);
+
+        create.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                createPage();
+            }
+        });
     }
 }
