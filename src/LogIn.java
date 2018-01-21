@@ -20,7 +20,8 @@ public class LogIn extends JFrame {
 
         super("GLib");
         this.setBounds(0, 0, 320, 320);
-        this.setLocationRelativeTo(null);
+//        this.setLocationRelativeTo(null);
+        this.setLocationByPlatform(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container container = this.getContentPane();
