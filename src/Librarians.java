@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Librarians extends Users {
+
     private JTextField status = new JTextField("", 5);
     private JTextField name = new JTextField("", 5);
     private JTextField sname = new JTextField("", 5);
@@ -65,7 +66,7 @@ public class Librarians extends Users {
         container.add(cancel);
     }
 
-    protected class Event implements ActionListener {
+    protected class Event implements ActionListener {                       //Данные будут непосредственно отправляться в БД
 
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -42,18 +42,19 @@ public class LogIn extends JFrame {
 
                                  @Override
                                  public void actionPerformed(ActionEvent e) {
-                                     Exist();
+                                    // Exist();
+                                    new Student(login.getText());
                                  }
 
                                  private void Exist() {
-                                     if (isLibrarian() && login.getText().equals("admin") && pass.getSelectedText().equals("admin")) {
-                                         Users user = new Librarians();
+                                     if (isLibrarian() && login.getText().equals("admin") && pass.getText().equals("admin")) {
+                                         Librarians user = new Librarians();
                                          user.setVisible(true);
                                          setVisible(false);
-                                     } else if (isFaculty() && login.getText().equals("faculty") && pass.getSelectedText().equals("faculty")) {
+                                     } else if (isFaculty() && login.getText().equals("faculty") && pass.getText().equals("faculty")) {
 
-                                     } else if (isStudent() && login.getText().equals("student") && pass.getSelectedText().equals("student")) {
-
+                                     } else if (isStudent() && login.getText().equals("student") && pass.getText().equals("student")) {
+                                         Student users = new Student(login.getText());
                                      } else JOptionPane.showMessageDialog(null, "Incorrect Status, LogIn or Password");
 
 
