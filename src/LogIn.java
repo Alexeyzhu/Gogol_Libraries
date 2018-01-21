@@ -43,8 +43,8 @@ public class LogIn extends JFrame {
 
                                  @Override
                                  public void actionPerformed(ActionEvent e) {
-                                    // Exist();
-                                    new Student(login.getText());
+                                     Exist();
+
                                  }
 
                                  private void Exist() {

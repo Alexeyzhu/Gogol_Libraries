@@ -9,7 +9,7 @@ public class Student extends Patrons {
     Student(String name) {
 
         JFrame frame = new JFrame(name);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         String[] columnname = {
                 "Document",
