@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 public class Student extends Patrons {
     Student(String name) {
 
+
         JFrame frame = new JFrame(name);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

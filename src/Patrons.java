@@ -1,2 +1,2 @@
-public abstract class Patrons extends Users {
+public class Patrons extends Users {
 }

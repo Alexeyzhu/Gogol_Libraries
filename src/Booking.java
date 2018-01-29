@@ -16,19 +16,20 @@ public class Booking {
 
     public void checkOut(int id_us, int id_doc) throws SQLException {
         boolean canCheckout = false;
-        Date date = new Date();
-        System.out.println(id_doc);
-        resultSet = statement.executeQuery("SELECT * FROM library.documents WHERE id = '" + id_doc + "'");
-
-        while (resultSet.next()) {
-            canCheckout = resultSet.getBoolean(6);
-            System.out.println(canCheckout);
-        }
+        Documents documents = new Documents();
+        documents.getShelf(id_doc);
+        canCheckout = documents.canCheckout(id_doc);
 
         if (canCheckout) {
-            statement.executeUpdate("UPDATE library.documents SET canCheckout = FALSE WHERE id = '" + id_doc + "'");
-            java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-            statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, isRenewed) " +
-                    "VALUES ('" + id_us + "','" + id_doc + "','" + timestamp + "',FALSE )"); }
+            documents.setCanCheckout(id_doc, false);
+            addBooking(id_us, id_doc);
+        }
+    }
+
+    private void addBooking(int id_us, int id_doc) throws SQLException {
+        Date date = new Date();
+        java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+        statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, isRenewed) " +
+                "VALUES ('" + id_us + "','" + id_doc + "','" + timestamp + "',FALSE )");
     }
 }

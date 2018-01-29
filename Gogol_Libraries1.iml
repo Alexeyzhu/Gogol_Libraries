@@ -10,7 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/json-org.jar!/" />
+          <root url="jar://$MODULE_DIR$/sources/json-org.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
