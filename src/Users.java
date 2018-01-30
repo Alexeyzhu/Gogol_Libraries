@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Users extends JFrame {
 
-    public String[] createPerson(String name, String surname, String address, int phone, String type) {
+    public String[] createPerson(String name, String surname, String address, int phone, String type) throws SQLException {
 
 
         return generateLogin(name, surname);
@@ -20,7 +20,6 @@ public class Users extends JFrame {
 
         // create login and password
         String login = name.substring(0, 1).toLowerCase() + "." + surname.toLowerCase();
-        isLogin(login);
         String password = Integer.toString(hashFunction(name, surname));
         String[] loginData = new String[2];
         loginData[0] = login;

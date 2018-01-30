@@ -1,21 +1,20 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-
+import java.sql.*;
 public class DBConnection {
     Connection connection;
-    String userName = "root";
-    String password = "1234";
-    String connectionUrl = "jdbc:mysql://localhost:3306/mysql?autoReconnect=true&useSSL=false";
+   // String userName = "root";
+   // String password = "1234";
+    String connectionUrl = "jdbc:sqlite:C:/Users/Алексей/Documents/GitHub/Gogol_Libraries/sources/gogollib.db";
 
     public DBConnection() {
         try
 
         {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
             System.out.println("Driver loaded successfully");
         } catch (
                 Exception e)
-
         {
             System.out.println("Unable to load driver");
         }
@@ -23,7 +22,7 @@ public class DBConnection {
 
     public Connection setConnection() {
         try {
-            connection = DriverManager.getConnection(connectionUrl, userName, password);
+            connection = DriverManager.getConnection(connectionUrl);
             System.out.println("DataBase connection successfully ");
             return connection;
         } catch (Exception e) {

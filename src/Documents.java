@@ -15,7 +15,7 @@ public class Documents {
 
     public int getBookID(int id_doc) throws SQLException {
         int id_book = 0;
-        resultSet = statement.executeQuery("SELECT * FROM library.documents " +
+        resultSet = statement.executeQuery("SELECT * FROM documents " +
                 "WHERE id ='" + id_doc + "'");
         while (resultSet.next()) {
             id_book = resultSet.getInt("id_book");
@@ -26,7 +26,7 @@ public class Documents {
 
     public String getShelf(int id_doc) throws SQLException {
         String shelf = "";
-        resultSet = statement.executeQuery("SELECT * FROM library.documents " +
+        resultSet = statement.executeQuery("SELECT * FROM documents " +
                 "WHERE id = '" + id_doc + "'");
         while (resultSet.next()) {
             shelf = resultSet.getString("shelf");
@@ -37,7 +37,7 @@ public class Documents {
 
     public boolean canCheckout(int id_doc) throws SQLException {
         boolean check = false;
-        resultSet = statement.executeQuery("SELECT canCheckout FROM library.documents " +
+        resultSet = statement.executeQuery("SELECT canCheckout FROM documents " +
                 "WHERE id = '" + id_doc + "'");
 
         while (resultSet.next()) {
