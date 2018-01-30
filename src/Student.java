@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Student extends Patrons {
-    Student(String name) {
+    Student(String name) throws SQLException{
 
 
         JFrame frame = new JFrame(name);

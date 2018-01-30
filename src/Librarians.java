@@ -3,6 +3,7 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Librarians extends Users {
 
@@ -21,7 +22,7 @@ public class Librarians extends Users {
     private String[] items = {"Librarian", "Faculty", "Student"};
     private JComboBox list = new JComboBox(items);
 
-    Librarians() {
+    Librarians() throws SQLException{
 
         ChoiceBox();
     }

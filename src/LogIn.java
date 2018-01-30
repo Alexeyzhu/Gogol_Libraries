@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class LogIn extends JFrame {
 
@@ -42,12 +43,16 @@ public class LogIn extends JFrame {
         ok.addActionListener(new ActionListener() {
 
                                  @Override
-                                 public void actionPerformed(ActionEvent e) {
-                                     Exist();
+                                 public void actionPerformed(ActionEvent e)  {
+                                     try {
+                                         Exist();
+                                     } catch (SQLException e1) {
+                                         e1.printStackTrace();
+                                     }
 
                                  }
 
-                                 private void Exist() {
+                                 private void Exist() throws SQLException {
                                      if (isLibrarian() && login.getText().equals("admin") && pass.getText().equals("admin")) {
                                          Librarians user = new Librarians();
                                          user.setVisible(true);

@@ -9,7 +9,7 @@ public class Main {
         Booking booking = new Booking();
         booking.checkOut(1,2);
         Users users = new Users();
-        users.createPerson("svbgt","asf","asdf",562,"afgrt");
+        users.createPerson("Alexey","Zhuchkov","Innopolis",123456789,"L");
 
 
       //  LogIn logIn = new LogIn();
