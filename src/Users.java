@@ -1,31 +1,23 @@
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.text.MaskFormatter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Users extends JFrame {
-    Statement statement;
-    ResultSet resultSet;
 
-    Users() throws SQLException {
-        super("Glib");
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.setConnection();
-        statement = connection.createStatement();
+    public String[] createPerson(String name, String surname, String address, int phone, String type) {
 
-    }
 
-    public String[] createPerson(String name, String surname, String address, int phone, String type) throws SQLException {
-        String[] dataLogin = generateLogin(name, surname);
-        statement.executeUpdate("INSERT library.users (" +
-                "login, password, name, surname, address, phone, type) " +
-                " VALUES ('" + dataLogin[0] + "','" + dataLogin[1] + "','" + name + "'" +
-                ",'" + surname + "','" + address + "','" + phone + "','" + type + "')");
-        return dataLogin;
+        return generateLogin(name, surname);
     }
 
     private String[] generateLogin(String name, String surname) throws SQLException {
+        // Convert to lower case
+        name = name.toLowerCase();
+        surname = surname.toLowerCase();
+
+        // create login and password
         String login = name.substring(0, 1).toLowerCase() + "." + surname.toLowerCase();
         isLogin(login);
         String password = Integer.toString(hashFunction(name, surname));
@@ -39,7 +31,7 @@ public class Users extends JFrame {
 
     private int hashFunction(String name, String surname) {
         String data = name + surname;
-        while (data.length() < 5) {
+        while (data.length() < 10) {
             data += data;
         }
         int hash = data.hashCode();
@@ -49,19 +41,8 @@ public class Users extends JFrame {
         return hash;
     }
 
-    private boolean isLogin(String login) throws SQLException {
-        boolean status = true;
-        String DBLogin = "fgg";
-        resultSet = statement.executeQuery("SELECT * FROM library.users " +
-                "WHERE login='" + login + "'");
-        while (resultSet.next()) {
-            DBLogin = resultSet.getNString("login");
-        }
-        if (DBLogin == null) {
-            status = false;
-        }
-        return status;
+    Users() {
+        super("Glib");
     }
-
 
 }
