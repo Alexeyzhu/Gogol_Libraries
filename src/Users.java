@@ -13,14 +13,22 @@ public class Users extends JFrame {
     }
 
     private String[] generateLogin(String name, String surname) {
+        // Convert to lower case
+        name = name.toLowerCase();
+        surname = surname.toLowerCase();
+
+        // create login and password
         String login = name.substring(0, 1) + "." + surname;
         String password = Integer.toString(hashFunction(name, surname));
-        String[] loginData = new String[2];
-        loginData[0] = login;
-        loginData[1] = password;
-        System.out.println(login);
-        System.out.println(password);
+        String[] loginData = {login, password};
+        printLoginData(loginData);
         return loginData;
+    }
+
+    // delete later, just for debug
+    private static void printLoginData(String[] data){
+        System.out.println(data[0]);
+        System.out.println(data[1]);
     }
 
     private int hashFunction(String name, String surname) {
