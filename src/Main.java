@@ -5,12 +5,16 @@ import java.sql.*;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        Documents documents = new Documents();
+        System.out.println(documents.getDocType(2));
+        // Booking booking = new Booking();
+        // booking.checkOut(1, 2);
+        //Users users = new Users();
+        //Librarians librarians = new Librarians();
+        // librarians.addPerson("Dan", "Zhuchkov", "Innopolis", 123456789, "L");
+        // System.out.println(users.checkLoginPassword("answer : " + "n.zhuchkov","305155464"));
+        //System.out.println(users.getType("a.zhuchkov","305129464"));
 
-       // Booking booking = new Booking();
-       // booking.checkOut(1, 2);
-        Users users = new Users();
-       // users.createPerson("Dan", "Zhuchkov", "Innopolis", 123456789, "L");
-        System.out.println(users.checkLoginPassword("n.zhuchkov","305155464") + " :answer");
 
         //  LogIn logIn = new LogIn();
         //  logIn.setVisible(true);
