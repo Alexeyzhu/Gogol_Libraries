@@ -1,16 +1,54 @@
+import org.sqlite.core.DB;
+
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Users extends JFrame {
+    Statement statement;
+    ResultSet resultSet;
 
     public String[] createPerson(String name, String surname, String address, int phone, String type) throws SQLException {
+        int result = 0;
+        //check if there is exist already this person
+        resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +
+                "WHERE name = '" + name + "' AND surname = '" + surname + "')");
 
+        while (resultSet.next()) {
+            result = resultSet.getInt(1);
+        }
 
-        return generateLogin(name, surname);
+        if (result == 1) {
+            System.out.println("There is already exist this person");
+            return null;
+        } else {
+            String[] data = generateLogin(name, surname);
+            statement.executeUpdate("INSERT INTO users (login, password, name, surname, address, phone, type) " +
+                    "VALUES ('" + data[0] + "','" + data[1] + "','" + name + "','" + surname + "','" + address + "'," + phone + ",'" + type + "')");
+            return data;
+        }
+
+    }
+
+    public boolean checkLoginPassword(String login, String password) throws SQLException {
+        int DBpass = 0;
+        int pass = Integer.parseInt(password);
+        resultSet = statement.executeQuery("SELECT * FROM users " +
+                "WHERE login = '" + login + "'");
+        while (resultSet.next()) {
+            DBpass = resultSet.getInt("password");
+        }
+        if (DBpass == pass) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private String[] generateLogin(String name, String surname) throws SQLException {
@@ -45,8 +83,11 @@ public class Users extends JFrame {
         return (int) (hash % Math.pow(BASE_OF_ARITHMETIC, MAX_PASSWORD_LENGTH));
     }
 
-    Users() {
+    Users() throws SQLException {
         super("Glib");
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.setConnection();
+        statement = connection.createStatement();
     }
 
 }
