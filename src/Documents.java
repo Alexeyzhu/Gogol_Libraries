@@ -70,20 +70,20 @@ public class Documents {
      * otherwise false
      * @throws SQLException
      */
-    public boolean canCheckout(int id_doc) throws SQLException {
+    public boolean canCheckOut(int id_doc) throws SQLException {
         boolean check = false;
         resultSet = statement.executeQuery("SELECT canCheckout FROM documents " +
                 "WHERE id = '" + id_doc + "'");
 
         while (resultSet.next()) {
-            check = resultSet.getBoolean("canCheckout");
+            check = resultSet.getBoolean("canCheckOut");
             System.out.println(check);
         }
         return check;
     }
 
     /**
-     * Set parament canCheckout for document
+     * Set parament canCheckOut for document
      *
      * @param id_doc ID of document
      * @param cancheckout
