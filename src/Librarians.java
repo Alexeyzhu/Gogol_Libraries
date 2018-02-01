@@ -1,3 +1,4 @@
+import javax.management.InstanceAlreadyExistsException;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -45,20 +46,24 @@ public class Librarians extends Users {
      * @param phone input phone
      * @param type input type of user (Library, Student, Faculty )
      * @return array with generated login and password
-     * @throws SQLException
+     * @throws SQLException, InstanceAlreadyExistException
      */
-    public String[] addPerson(String name, String surname, String address, int phone, String type) throws SQLException {
-        int result = 0;
+    public String[] addPerson(String name, String surname, String address, int phone, String type)
+            throws SQLException, InstanceAlreadyExistsException {
+        final int DEFAULT = 0;
+        final int PERSON_ALREADY_EXIST = 1;
+
+        int result = DEFAULT;
         //check if there is exist already this person
         resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +
                 "WHERE name = '" + name + "' AND surname = '" + surname + "')");
 
         while (resultSet.next()) {
-            result = resultSet.getInt(1);
+            result = resultSet.getInt(PERSON_ALREADY_EXIST);
         }
 
-        if (result == 1) {
-            System.out.println("There is already exist this person");
+        if (result == PERSON_ALREADY_EXIST) {
+            new InstanceAlreadyExistsException("There is already exist this person");
             return null;
         } else {
             String[] data = generateLogin(name, surname);
@@ -85,10 +90,9 @@ public class Librarians extends Users {
         surname = surname.toLowerCase();
 
         // create login and password
-        String login = name.substring(0, 1).toLowerCase() + "." + surname.toLowerCase();
+        String login = name.substring(0, 1) + "." + surname;
         String password = Integer.toString(hashFunction(name, surname));
-        String[] loginData = {login, password};
-        return loginData;
+        return new String[]{login, password};
     }
 
     /**
