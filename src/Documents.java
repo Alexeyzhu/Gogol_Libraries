@@ -1,3 +1,5 @@
+import org.omg.CORBA.OBJECT_NOT_EXIST;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,29 +70,29 @@ public class Documents {
      * @param id_doc ID of document
      * @return true - if document can be checked out
      * otherwise false
-     * @throws SQLException
+     * @throws SQLException, OBJECT_NOT_EXIST
      */
-    public boolean canCheckOut(int id_doc) throws SQLException {
+    public boolean canCheckOut(int id_doc) throws SQLException, OBJECT_NOT_EXIST {
         boolean check = false;
         resultSet = statement.executeQuery("SELECT canCheckout FROM documents " +
                 "WHERE id = '" + id_doc + "'");
 
         while (resultSet.next()) {
             check = resultSet.getBoolean("canCheckOut");
-            System.out.println(check);
+            if (!check)  new OBJECT_NOT_EXIST("Document with this ID = " + id_doc + " doesn't exist");
         }
         return check;
     }
 
     /**
-     * Set parament canCheckOut for document
+     * Set parameter canCheckOut for document
      *
      * @param id_doc ID of document
-     * @param cancheckout
+     * @param canCheckOut
      * @throws SQLException
      */
-    public void setCanCheckout(int id_doc, boolean cancheckout) throws SQLException {
-        statement.executeUpdate("UPDATE library.documents SET canCheckout = " + cancheckout +
+    public void setCanCheckout(int id_doc, boolean canCheckOut) throws SQLException {
+        statement.executeUpdate("UPDATE library.documents SET canCheckout = " + canCheckOut +
                 " WHERE id = '" + id_doc + "'");
     }
 }
