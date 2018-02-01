@@ -1,3 +1,4 @@
+import org.omg.CORBA.OBJECT_NOT_EXIST;
 import org.sqlite.core.DB;
 
 import javax.swing.*;
@@ -29,9 +30,9 @@ public class Users extends JFrame {
      * @param login login of user
      * @param password password of user to check
      * @return level of access library or patron
-     * @throws SQLException
+     * @throws SQLException, OBJECT_NOT_EXIST
      */
-    public String getType(String login, String password) throws SQLException {
+    public String getType(String login, String password) throws SQLException, OBJECT_NOT_EXIST {
 
         if (checkLoginPassword(login, password)) {
             String type = "";
@@ -42,7 +43,7 @@ public class Users extends JFrame {
             }
             return type;
         } else {
-            System.out.println("There is no such person");
+            new OBJECT_NOT_EXIST("There is no such person");
             return null;
         }
 
@@ -81,18 +82,13 @@ public class Users extends JFrame {
     public boolean checkLoginPassword(String login, String password) throws SQLException {
         int DBpass = 0;
         int pass = Integer.parseInt(password);
+
         resultSet = statement.executeQuery("SELECT * FROM users " +
                 "WHERE login = '" + login + "'");
         while (resultSet.next()) {
             DBpass = resultSet.getInt("password");
         }
 
-        if (DBpass == pass) {
-            System.out.println("login and password are correct");
-            return true;
-        } else {
-            System.out.println("check login or password");
-            return false;
-        }
+        return DBpass == pass;
     }
 }
