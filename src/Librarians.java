@@ -18,7 +18,7 @@ public class Librarians extends Users {
     private JLabel lab0 = new JLabel("Status: ");
     private JLabel lab1 = new JLabel("Name:");
     private JLabel lab2 = new JLabel("Surname:");
-    private JLabel lab3 = new JLabel("Adress:");
+    private JLabel lab3 = new JLabel("Address:");
     private JLabel lab4 = new JLabel("Phone number:");
     private JButton button = new JButton("Ok");
     private JButton cancel = new JButton("Cancel");
