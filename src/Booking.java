@@ -23,12 +23,8 @@ public class Booking {
      * @throws SQLException
      */
     public void checkOut(int id_us, int id_doc) throws SQLException {
-        boolean canCheckout = false;
         Documents documents = new Documents();
-        documents.getShelf(id_doc);
-        canCheckout = documents.canCheckout(id_doc);
-
-        if (canCheckout) {
+        if (documents.canCheckOut(id_doc)) {
             documents.setCanCheckout(id_doc, false);
             addBooking(id_us, id_doc);
         }
