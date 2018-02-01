@@ -25,15 +25,28 @@ public class Librarians extends Users {
     private String[] items = {"Librarian", "Faculty", "Student"};
     private JComboBox list = new JComboBox(items);
 
-    Librarians() throws SQLException{
+    Librarians() throws SQLException {
         ChoiceBox();
         DBConnection dbConnection = new DBConnection();
         Connection connection = dbConnection.setConnection();
         statement = connection.createStatement();
     }
+
     Statement statement;
     ResultSet resultSet;
 
+    /**
+     * Create user in the table users
+     * Also checks if already there is exist this person
+     *
+     * @param name input name
+     * @param surname input surname
+     * @param address input address
+     * @param phone input phone
+     * @param type input type of user (Library, Student, Faculty )
+     * @return array with generated login and password
+     * @throws SQLException
+     */
     public String[] addPerson(String name, String surname, String address, int phone, String type) throws SQLException {
         int result = 0;
         //check if there is exist already this person
@@ -56,6 +69,16 @@ public class Librarians extends Users {
 
     }
 
+    /**
+     * Generator of login and password
+     * Login form first_char_of_name.full_surname
+     * Password : 8 numbers
+     *
+     * @param name input name
+     * @param surname input surname
+     * @return array with generated login and password
+     * @throws SQLException
+     */
     private String[] generateLogin(String name, String surname) throws SQLException {
         // Convert to lower case
         name = name.toLowerCase();
@@ -65,16 +88,17 @@ public class Librarians extends Users {
         String login = name.substring(0, 1).toLowerCase() + "." + surname.toLowerCase();
         String password = Integer.toString(hashFunction(name, surname));
         String[] loginData = {login, password};
-        printLoginData(loginData);
-
         return loginData;
     }
 
-    // delete it later
-    private void printLoginData(String[] loginData) {
-        System.out.println(loginData[0] + "\n" + loginData[1]);
-    }
-
+    /**
+     * Hash function which generates password according to
+     * the name and surname
+     *
+     * @param name input name
+     * @param surname input surname
+     * @return
+     */
     private int hashFunction(String name, String surname) {
         final int MAX_PASSWORD_LENGTH = 8;
         final int BASE_OF_ARITHMETIC = 10;
@@ -83,21 +107,14 @@ public class Librarians extends Users {
         while (data.length() < 10) {
             data += data;
         }
+
         int hash = Math.abs(data.hashCode());
 
         return (int) (hash % Math.pow(BASE_OF_ARITHMETIC, MAX_PASSWORD_LENGTH));
     }
 
 
-
-
-
-
-
-
-
-
-    private void createPage(){
+    private void createPage() {
 
         this.setBounds(0, 0, 640, 420);
         this.setLocationRelativeTo(null);
@@ -160,12 +177,12 @@ public class Librarians extends Users {
     }
 
 
-    private void ChoiceBox(){
+    private void ChoiceBox() {
         JFrame frame = new JFrame("Glib");
-        frame.setBounds(0,0, 250,250);
+        frame.setBounds(0, 0, 250, 250);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(3,3,2,2));
+        frame.setLayout(new GridLayout(3, 3, 2, 2));
 
         JButton add = new JButton("Add a book");
         JButton modify = new JButton("Modify Library");

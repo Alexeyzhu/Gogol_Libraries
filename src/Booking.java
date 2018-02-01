@@ -14,6 +14,14 @@ public class Booking {
         statement = connection.createStatement();
     }
 
+    /**
+     * Insert user's and document's ID into booking table and
+     * system gives unique ID to this booking transaction
+     *
+     * @param id_us id of user from user table
+     * @param id_doc id of document from document table
+     * @throws SQLException
+     */
     public void checkOut(int id_us, int id_doc) throws SQLException {
         boolean canCheckout = false;
         Documents documents = new Documents();
@@ -26,6 +34,13 @@ public class Booking {
         }
     }
 
+    /**
+     * Insert user's and document's into to booking table
+     *
+     * @param id_us id of user from user table
+     * @param id_doc id of document from document table
+     * @throws SQLException
+     */
     private void addBooking(int id_us, int id_doc) throws SQLException {
         Date date = new Date();
         java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());

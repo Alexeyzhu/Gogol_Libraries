@@ -21,7 +21,16 @@ public class Users extends JFrame {
         statement = connection.createStatement();
     }
 
-    // check who is the user
+    /**
+     * User will be enter to the library only if
+     * password and login right. GUI will get the level of access of user
+     * Use it in order to pass users into system
+     *
+     * @param login login of user
+     * @param password password of user to check
+     * @return level of access library or patron
+     * @throws SQLException
+     */
     public String getType(String login, String password) throws SQLException {
 
         if (checkLoginPassword(login, password)) {
@@ -39,6 +48,14 @@ public class Users extends JFrame {
 
     }
 
+    /**
+     * Returns the id of user according to its login and password
+     *
+     * @param login login of user
+     * @param password password of user to check
+     * @return id of person in the database
+     * @throws SQLException
+     */
     private int getID(String login, String password) throws SQLException {
         int id = 0;
         int pass = Integer.parseInt(password);
@@ -51,7 +68,16 @@ public class Users extends JFrame {
         return id;
     }
 
-
+    /**
+     * Checks person's login and password if they are in the database
+     * and suitable to each other
+     *
+     * @param login login of user
+     * @param password password of user to check
+     * @return true - if login and password are in system and belong to one person
+     *         false - if password do not suitable to the login or login absent in system
+     * @throws SQLException
+     */
     public boolean checkLoginPassword(String login, String password) throws SQLException {
         int DBpass = 0;
         int pass = Integer.parseInt(password);

@@ -9,9 +9,12 @@ public class DBConnection {
     // Put your URL here
     String connectionUrl = "jdbc:sqlite:C:/Users/Алексей/Documents/GitHub/Gogol_Libraries/sources/gogollib.db";
 
+    /**
+     * Loader of drivers
+     */
+
     public DBConnection() {
         try
-
         {
             Class.forName("org.sqlite.JDBC");
             System.out.println("Driver loaded successfully");
@@ -21,6 +24,11 @@ public class DBConnection {
             System.out.println("Unable to load driver");
         }
     }
+
+    /**
+     * set connection to database
+     * @return statement which is necessary for queries to database
+     */
 
     public Connection setConnection() {
         try {

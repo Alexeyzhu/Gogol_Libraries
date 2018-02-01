@@ -9,7 +9,11 @@ public class Patrons extends Users {
         statement = connection.createStatement();
     }
 
-    // 3 types : BOOK , JOURNAL , AV
+    /**
+     *  3 types : BOOK , JOURNAL , AV
+     *
+     */
+
     public String getDocument(String type, String name, String author) {
         if (type.equals("BOOK") || type.equals("JOURNAL") || type.equals("AV")) {
 
