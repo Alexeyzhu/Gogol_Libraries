@@ -106,9 +106,10 @@ public class Librarians extends Users {
     private int hashFunction(String name, String surname) {
         final int MAX_PASSWORD_LENGTH = 8;
         final int BASE_OF_ARITHMETIC = 10;
+        final int MINIMUM_DATA_LENGTH = 10;
 
         String data = name + surname;
-        while (data.length() < 10) {
+        while (data.length() < MINIMUM_DATA_LENGTH) {
             data += data;
         }
 
