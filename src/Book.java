@@ -5,7 +5,41 @@ public class Book extends Documents {
     }
 
     /**
-     *Returns book's ID from book table according to its ID
+     * Add book to the books table
+     *
+     * @param name
+     * @param author
+     * @param publisher
+     * @param edition
+     * @param editionYear
+     * @param isBestSeller
+     * @param shelf where will be book
+     * @param canCheckout false for special books
+     * @throws SQLException
+     */
+    public void addBook(String name, String author, String publisher,
+                        String edition, String editionYear,
+                        boolean isBestSeller, String shelf,
+                        boolean canCheckout) throws SQLException {
+        int id_book = 0;
+        statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +
+                "VALUES ('" + name + "','" + author + "','" + publisher + "'," +
+                "'" + edition + "','" + editionYear + "'," + isBestSeller + ") ");
+        resultSet = statement.executeQuery("SELECT id FROM books " +
+                "WHERE name = '" + name + "' AND author = '" + author + "' AND publisher = '" + publisher + "'" +
+                " AND edition = '" + edition + "' AND edition_year = '" + editionYear + "' ");
+
+        while (resultSet.next()){
+            id_book = resultSet.getInt("id");
+        }
+
+        statement.executeUpdate("INSERT INTO documents (id_book,shelf, canCheckout)" +
+                "VALUES (" + id_book + ",'" + shelf + "'," + canCheckout + ")");
+
+    }
+
+    /**
+     * Returns book's ID from book table according to its ID
      * in document table
      *
      * @param id_doc ID of book from the document table
@@ -27,7 +61,7 @@ public class Book extends Documents {
     }
 
     /**
-     *Query:
+     * Query:
      * true - if book is Bestseller
      * false - otherwise
      *
