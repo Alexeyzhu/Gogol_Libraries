@@ -47,7 +47,7 @@ public class Librarians extends Users {
      * @return array with generated login and password
      * @throws SQLException
      */
-    public String[] addPerson(String name, String surname, String address, int phone, String type) throws SQLException {
+    public String[] addPerson(String name, String surname, String address, String phone, String type) throws SQLException {
         int result = 0;
         //check if there is exist already this person
         resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +

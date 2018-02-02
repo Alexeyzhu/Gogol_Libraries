@@ -15,6 +15,7 @@ public class Documents {
         statement = connection.createStatement();
     }
 
+    //TODO add document
 
     /**
      * Find out the type of the document
