@@ -52,12 +52,18 @@ public class Librarians extends Users {
             throws SQLException, InstanceAlreadyExistsException {
         final int DEFAULT = 0;
         final int PERSON_ALREADY_EXIST = 1;
+        final int STANDART_PHONE_COUNT = 11;
 
         int result = DEFAULT;
 
         if (name == null || surname == null || address == null || phone == null || type == null) {
             throw new NullPointerException("Some of parameters are null");
         }
+
+        if (phone.length() != STANDART_PHONE_COUNT){
+            throw new NumberFormatException("Wrong phone format");
+        }
+
         //check if there is exist already this person
         resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +
                 "WHERE name = '" + name + "' AND surname = '" + surname + "')");
