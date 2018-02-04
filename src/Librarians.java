@@ -1,9 +1,4 @@
 import javax.management.InstanceAlreadyExistsException;
-import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,29 +35,29 @@ public class Librarians extends Users {
 
         int result = DEFAULT;
 
-        if (name == null || surname == null || address == null || phone == null || type == null) {
+        if (name == null || surname == null || address == null || phone == null ||
+                name.equals("Name") || surname.equals("Surname") || address.equals("Address")) {
             throw new NullPointerException("Some of parameters are null");
-        }
-
-        if (phone.length() != STANDART_PHONE_COUNT){
+        } else if (phone.length() != STANDART_PHONE_COUNT) {
             throw new NumberFormatException("Wrong phone format");
-        }
-
-        //check if there is exist already this person
-        resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +
-                "WHERE name = '" + name + "' AND surname = '" + surname + "')");
-
-        while (resultSet.next()) {
-            result = resultSet.getInt(PERSON_ALREADY_EXIST);
-        }
-
-        if (result == PERSON_ALREADY_EXIST) {
-            throw new InstanceAlreadyExistsException("There is already exist this person");
         } else {
-            String[] data = generateLogin(name, surname);
-            statement.executeUpdate("INSERT INTO users (login, password, name, surname, address, phone, type) " +
-                    "VALUES ('" + data[0] + "','" + data[1] + "','" + name + "','" + surname + "','" + address + "'," + phone + ",'" + type + "')");
-            return data;
+
+            //check if there is exist already this person
+            resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +
+                    "WHERE name = '" + name + "' AND surname = '" + surname + "')");
+
+            while (resultSet.next()) {
+                result = resultSet.getInt(PERSON_ALREADY_EXIST);
+            }
+
+            if (result == PERSON_ALREADY_EXIST) {
+                throw new InstanceAlreadyExistsException("There is already exist this person");
+            } else {
+                String[] data = generateLogin(name, surname);
+                statement.executeUpdate("INSERT INTO users (login, password, name, surname, address, phone, type) " +
+                        "VALUES ('" + data[0] + "','" + data[1] + "','" + name + "','" + surname + "','" + address + "'," + phone + ",'" + type + "')");
+                return data;
+            }
         }
 
     }
