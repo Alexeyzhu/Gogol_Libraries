@@ -40,11 +40,11 @@ public class Librarians extends Users {
      * Create user in the table users
      * Also checks if already there is exist this person
      *
-     * @param name input name
+     * @param name    input name
      * @param surname input surname
      * @param address input address
-     * @param phone input phone
-     * @param type input type of user (Library, Student, Faculty )
+     * @param phone   input phone
+     * @param type    input type of user (Library, Student, Faculty )
      * @return array with generated login and password
      * @throws SQLException
      */
@@ -54,6 +54,10 @@ public class Librarians extends Users {
         final int PERSON_ALREADY_EXIST = 1;
 
         int result = DEFAULT;
+
+        if (name == null || surname == null || address == null || phone == null || type == null) {
+            throw new NullPointerException("Some of parameters are null");
+        }
         //check if there is exist already this person
         resultSet = statement.executeQuery("SELECT EXISTS(SELECT id FROM users " +
                 "WHERE name = '" + name + "' AND surname = '" + surname + "')");
@@ -63,8 +67,7 @@ public class Librarians extends Users {
         }
 
         if (result == PERSON_ALREADY_EXIST) {
-            new InstanceAlreadyExistsException("There is already exist this person");
-            return null;
+            throw new InstanceAlreadyExistsException("There is already exist this person");
         } else {
             String[] data = generateLogin(name, surname);
             statement.executeUpdate("INSERT INTO users (login, password, name, surname, address, phone, type) " +
@@ -79,7 +82,7 @@ public class Librarians extends Users {
      * Login form first_char_of_name.full_surname
      * Password : 8 numbers
      *
-     * @param name input name
+     * @param name    input name
      * @param surname input surname
      * @return array with generated login and password
      * @throws SQLException
@@ -99,7 +102,7 @@ public class Librarians extends Users {
      * Hash function which generates password according to
      * the name and surname
      *
-     * @param name input name
+     * @param name    input name
      * @param surname input surname
      * @return
      */
