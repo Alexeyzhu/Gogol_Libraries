@@ -13,6 +13,7 @@ public class Documents {
     static ResultSet resultSet;
     static Statement statement;
 
+    // Create statement
     static {
         try {
             statement = new DBConnection().setConnection().createStatement();
@@ -21,6 +22,7 @@ public class Documents {
         }
     }
 
+    // Are we really need this constructor?
     Documents() throws SQLException {
     }
 
@@ -42,27 +44,30 @@ public class Documents {
      * Find out the type of the document
      * from database
      *
-     * @param id_doc ID of document
+     * @param idDoc ID of document
      * @return type of input document
      * sample of output (BOOK,JOURNAL,AV)
      * @throws SQLException
      */
-    public static String getDocType(int id_doc) throws SQLException {
-        int book = 0;
-        int journal = 0;
-        int av = 0;
-        resultSet = statement.executeQuery("SELECT * FROM documents WHERE id = '" + id_doc + "'");
+    public static String getDocType(int idDoc) throws SQLException {
+        boolean book = false;
+        boolean journal = false;
+        boolean av = false;
+
+        // check implementation. Change 'id_book', 'id_journal', 'id_av' to camelCase or transform they to constants
+        resultSet = statement.executeQuery("SELECT * FROM documents WHERE id = '" + idDoc + "'");
         while (resultSet.next()) {
-            book = resultSet.getInt("id_book");
-            journal = resultSet.getInt("id_journal");
-            av = resultSet.getInt("id_av");
+            book = resultSet.getBoolean("id_book");
+            journal = resultSet.getBoolean("id_journal");
+            av = resultSet.getBoolean("id_av");
 
         }
-        if (book > 0) {
+
+        if (book) {
             return BOOK;
-        } else if (journal > 0) {
+        } else if (journal) {
             return JOURNAL;
-        } else if (av > 0) {
+        } else if (av) {
             return AUDIO_VIDEO_MATERIALS;
         } else {
             throw new NullPointerException("Something wrong in input or database");
@@ -81,10 +86,14 @@ public class Documents {
         String shelf = "";
         resultSet = statement.executeQuery("SELECT * FROM documents " +
                 "WHERE id = '" + idDoc + "'");
+
+        // can you transform 'shelf' to constant?
+        // for this idDoc we always have only one shelf? If no, chat me @HardLight
         while (resultSet.next()) {
             shelf = resultSet.getString("shelf");
             System.out.println(shelf);
         }
+
         return shelf;
     }
 
@@ -99,10 +108,12 @@ public class Documents {
         resultSet = statement.executeQuery("SELECT canCheckout FROM documents " +
                 "WHERE id = '" + idDoc + "'");
 
+        // can you transform 'canCheckOut' to constant?
         while (resultSet.next()) {
             check = resultSet.getBoolean("canCheckOut");
-            if (!check)  new OBJECT_NOT_EXIST("Document with this ID = " + idDoc + " doesn't exist");
+            if (!check)  throw new OBJECT_NOT_EXIST("Document with this ID = " + idDoc + " doesn't exist");
         }
+
         return check;
     }
 
