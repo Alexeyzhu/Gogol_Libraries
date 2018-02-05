@@ -72,8 +72,8 @@ public class Booking {
 
         java.sql.Timestamp bookingDate = new java.sql.Timestamp(date.getTime());
         java.sql.Timestamp timeForReturn = new java.sql.Timestamp(dateForReturn.getTime());
-        statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, isRenewed) " +
-                "VALUES ('" + id_us + "','" + id_doc + "','" + bookingDate + "',FALSE )");
+        statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
+                "VALUES ('" + id_us + "','" + id_doc + "','" + bookingDate + "',"+ timeForReturn +",FALSE )");
     }
 
     public int iteratorDocuments(int idDoc){
