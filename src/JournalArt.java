@@ -49,7 +49,7 @@ public class JournalArt extends Documents {
         return idJournal;
     }
 
-    public String[] getJournalName(int idDoc) throws SQLException {
+    public static String[] getJournalName(int idDoc) throws SQLException {
         int idJournal = getJournalID(idDoc);
 
         String[] name = new String[2];

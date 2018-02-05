@@ -30,7 +30,7 @@ public class AV extends Documents {
 
     }
 
-    public int getAVID(int idDoc) throws SQLException {
+    public static int getAVID(int idDoc) throws SQLException {
         int idAV = 0;
         resultSet = statement.executeQuery("SELECT id_av FROM documents " +
                 "WHERE id ='" + idDoc + "'");
@@ -44,7 +44,7 @@ public class AV extends Documents {
         return idAV;
     }
 
-    public String[] getAVName(int idDoc) throws SQLException {
+    public static String[] getAVName(int idDoc) throws SQLException {
         int idAV = getAVID(idDoc);
 
         String[] name = new String[2];

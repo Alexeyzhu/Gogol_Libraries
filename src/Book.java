@@ -18,7 +18,7 @@ public class Book extends Documents {
      * @param canCheckout  false for special books
      * @throws SQLException
      */
-    public void addBook(String name, String author, String publisher,
+    public static void addBook(String name, String author, String publisher,
                         String edition, String editionYear,
                         boolean isBestSeller, String shelf,
                         boolean canCheckout, boolean isReference) throws SQLException {
@@ -47,7 +47,7 @@ public class Book extends Documents {
      * @return book's ID from book table
      * @throws SQLException
      */
-    public int getBookID(int idDoc) throws SQLException {
+    public static int getBookID(int idDoc) throws SQLException {
         int id_book = 0;
         resultSet = statement.executeQuery("SELECT id_book FROM documents " +
                 "WHERE id ='" + idDoc + "'");
@@ -67,7 +67,7 @@ public class Book extends Documents {
      * @return
      * @throws SQLException
      */
-    public String[] getBookName(int idDoc) throws SQLException {
+    public static String[] getBookName(int idDoc) throws SQLException {
         int idBook = getBookID(idDoc);
         String[] name = new String[2];
         resultSet = statement.executeQuery("SELECT * FROM books WHERE id = '" + idBook + "'");
@@ -83,15 +83,15 @@ public class Book extends Documents {
      * true - if book is Bestseller
      * false - otherwise
      *
-     * @param id_book id of the book from the books table
+     * @param idBook id of the book from the books table
      * @return true - if book is Bestseller
      * false - otherwise
      * @throws SQLException
      */
-    public boolean isBestSeller(int id_book) throws SQLException {
+    public static boolean isBestSeller(int idBook) throws SQLException {
         boolean isBest = false;
         resultSet = statement.executeQuery("SELECT isBestSeller FROM library.books " +
-                "WHERE id = '" + id_book + "'");
+                "WHERE id = '" + idBook + "'");
         while (resultSet.next()) {
             isBest = resultSet.getBoolean("isBestSeller");
             System.out.println(isBest);

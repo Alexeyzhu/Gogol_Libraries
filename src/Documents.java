@@ -6,14 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Documents {
-    Book book = new Book();
-    JournalArt journalArt = new JournalArt();
-    AV av = new AV();
-    Statement statement;
-    ResultSet resultSet;
     final static String BOOK = "Book";
     final static String JOURNAL = "Journal";
-    final  static String AV = "AV";
+    final  static String AUDIO_VIDEO_MATERIALS = "Audio & Video materials";
+
+    static ResultSet resultSet;
+    static Statement statement;
 
     Documents() throws SQLException {
         DBConnection dbConnection = new DBConnection();
@@ -21,16 +19,17 @@ public class Documents {
         statement = connection.createStatement();
     }
 
-    public String[] getDocumentName(int idDoc) throws SQLException {
+    public static String[] getDocumentName(int idDoc) throws SQLException {
         String type = getDocType(idDoc);
-        if (type.equals(BOOK)){
-            return book.getBookName(idDoc);
-        }else if (type.equals(JOURNAL)){
-            return journalArt.getJournalName(idDoc);
-        }else if (type.equals(AV)){
-            return av.getAVName(idDoc);
-        }else {
-            throw  new NumberFormatException();
+        switch (type) {
+            case BOOK:
+                return Book.getBookName(idDoc);
+            case JOURNAL:
+                return JournalArt.getJournalName(idDoc);
+            case AUDIO_VIDEO_MATERIALS:
+                return AV.getAVName(idDoc);
+            default:
+                throw new NumberFormatException();
         }
     }
 
@@ -43,7 +42,7 @@ public class Documents {
      * sample of output (BOOK,JOURNAL,AV)
      * @throws SQLException
      */
-    public String getDocType(int id_doc) throws SQLException {
+    public static String getDocType(int id_doc) throws SQLException {
         int book = 0;
         int journal = 0;
         int av = 0;
@@ -59,7 +58,7 @@ public class Documents {
         } else if (journal > 0) {
             return JOURNAL;
         } else if (av > 0) {
-            return AV;
+            return AUDIO_VIDEO_MATERIALS;
         } else {
             throw new NullPointerException("Something wrong in input or database");
         }
@@ -69,14 +68,14 @@ public class Documents {
     /**
      * Returns shelf of the document
      *
-     * @param id_doc ID of document
+     * @param idDoc ID of document
      * @return shelf in String format
      * @throws SQLException
      */
-    public String getShelf(int id_doc) throws SQLException {
+    public static String getShelf(int idDoc) throws SQLException {
         String shelf = "";
         resultSet = statement.executeQuery("SELECT * FROM documents " +
-                "WHERE id = '" + id_doc + "'");
+                "WHERE id = '" + idDoc + "'");
         while (resultSet.next()) {
             shelf = resultSet.getString("shelf");
             System.out.println(shelf);
@@ -85,19 +84,19 @@ public class Documents {
     }
 
     /**
-     * @param id_doc ID of document
+     * @param idDoc ID of document
      * @return true - if document can be checked out
      * otherwise false
      * @throws SQLException, OBJECT_NOT_EXIST
      */
-    public boolean canCheckOut(int id_doc) throws SQLException, OBJECT_NOT_EXIST {
+    public static boolean canCheckOut(int idDoc) throws SQLException, OBJECT_NOT_EXIST {
         boolean check = false;
         resultSet = statement.executeQuery("SELECT canCheckout FROM documents " +
-                "WHERE id = '" + id_doc + "'");
+                "WHERE id = '" + idDoc + "'");
 
         while (resultSet.next()) {
             check = resultSet.getBoolean("canCheckOut");
-            if (!check)  new OBJECT_NOT_EXIST("Document with this ID = " + id_doc + " doesn't exist");
+            if (!check)  new OBJECT_NOT_EXIST("Document with this ID = " + idDoc + " doesn't exist");
         }
         return check;
     }
@@ -105,12 +104,12 @@ public class Documents {
     /**
      * Set parameter canCheckOut for document
      *
-     * @param id_doc ID of document
+     * @param idDoc ID of document
      * @param canCheckOut
      * @throws SQLException
      */
-    public void setCanCheckout(int id_doc, boolean canCheckOut) throws SQLException {
+    public static void setCanCheckout(int idDoc, boolean canCheckOut) throws SQLException {
         statement.executeUpdate("UPDATE library.documents SET canCheckout = " + canCheckOut +
-                " WHERE id = '" + id_doc + "'");
+                " WHERE id = '" + idDoc + "'");
     }
 }
