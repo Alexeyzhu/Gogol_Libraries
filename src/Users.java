@@ -43,8 +43,7 @@ public class Users extends JFrame {
             }
             return type;
         } else {
-            new OBJECT_NOT_EXIST("There is no such person");
-            return null;
+            throw new OBJECT_NOT_EXIST("There is no such person");
         }
 
     }
