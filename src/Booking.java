@@ -6,10 +6,15 @@ import java.sql.Statement;
 import java.util.Date;
 
 public class Booking {
-    final static long FOUR_WEEKS_IN_SEC  = 2419200;
+    final static long FOUR_WEEKS_IN_SEC = 2419200;
     final static long THREE_WEEKS_IN_SEC = 1814400;
-    final static long TWO_WEEKS_IN_SEC   = 1209600;
+    final static long TWO_WEEKS_IN_SEC = 1209600;
     final static int CONVERT_SEC_IN_MILLISEC = 1000;
+    Documents documents = new Documents();
+    Book book = new Book();
+    JournalArt journal = new JournalArt();
+    AV av = new AV();
+
     Statement statement;
     ResultSet resultSet;
 
@@ -23,7 +28,7 @@ public class Booking {
      * Insert user's and document's ID into booking table and
      * system gives unique ID to this booking transaction
      *
-     * @param id_us id of user from user table
+     * @param id_us  id of user from user table
      * @param id_doc id of document from document table
      * @throws SQLException
      */
@@ -38,7 +43,7 @@ public class Booking {
     /**
      * Insert user's and document's into to booking table
      *
-     * @param id_us id of user from user table
+     * @param id_us  id of user from user table
      * @param id_doc id of document from document table
      * @throws SQLException
      */
@@ -69,5 +74,9 @@ public class Booking {
         java.sql.Timestamp timeForReturn = new java.sql.Timestamp(dateForReturn.getTime());
         statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, isRenewed) " +
                 "VALUES ('" + id_us + "','" + id_doc + "','" + bookingDate + "',FALSE )");
+    }
+
+    public int iteratorDocuments(int idDoc){
+        return 0;
     }
 }
