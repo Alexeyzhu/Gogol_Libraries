@@ -2,6 +2,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Book extends Documents {
+    // Are we really need this constructor?
     Book() throws SQLException {
     }
 
@@ -23,7 +24,7 @@ public class Book extends Documents {
                         boolean isBestSeller, String shelf,
                         boolean canCheckout, boolean isReference) throws SQLException {
         int id_book = 0;
-        statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +
+        statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller, isReference) " +
                 "VALUES ('" + name + "','" + author + "','" + publisher + "'," +
                 "'" + edition + "','" + editionYear + "'," + isBestSeller + ") ");
         resultSet = statement.executeQuery("SELECT id FROM books " +
@@ -48,16 +49,22 @@ public class Book extends Documents {
      * @throws SQLException
      */
     public static int getBookID(int idDoc) throws SQLException {
-        int id_book = 0;
+        final int BOOK_DOES_NOT_EXIST = 0;
+
+        int id_book = BOOK_DOES_NOT_EXIST;
         resultSet = statement.executeQuery("SELECT id_book FROM documents " +
                 "WHERE id ='" + idDoc + "'");
+
+        // can you transform 'id_book' to constant?
         while (resultSet.next()) {
             id_book = resultSet.getInt("id_book");
-            System.out.println(id_book);
+            System.out.println("Book id = " + id_book);
         }
-        if (id_book == 0) {
+
+        if (id_book == BOOK_DOES_NOT_EXIST) {
             throw new NullPointerException("Something going wrong. This is not a book.");
         }
+
         return id_book;
     }
 
@@ -94,7 +101,7 @@ public class Book extends Documents {
                 "WHERE id = '" + idBook + "'");
         while (resultSet.next()) {
             isBest = resultSet.getBoolean("isBestSeller");
-            System.out.println(isBest);
+            System.out.println("This book is BestSeller - " + isBest);
         }
         return isBest;
     }
