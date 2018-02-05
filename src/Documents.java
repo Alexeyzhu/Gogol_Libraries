@@ -13,10 +13,15 @@ public class Documents {
     static ResultSet resultSet;
     static Statement statement;
 
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     Documents() throws SQLException {
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.setConnection();
-        statement = connection.createStatement();
     }
 
     public static String[] getDocumentName(int idDoc) throws SQLException {
