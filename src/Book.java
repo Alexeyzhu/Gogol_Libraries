@@ -21,7 +21,7 @@ public class Book extends Documents {
     public void addBook(String name, String author, String publisher,
                         String edition, String editionYear,
                         boolean isBestSeller, String shelf,
-                        boolean canCheckout) throws SQLException {
+                        boolean canCheckout, boolean isReference) throws SQLException {
         int id_book = 0;
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +
                 "VALUES ('" + name + "','" + author + "','" + publisher + "'," +
