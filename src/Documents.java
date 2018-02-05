@@ -6,13 +6,32 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Documents {
+    Book book = new Book();
+    JournalArt journalArt = new JournalArt();
+    AV av = new AV();
     Statement statement;
     ResultSet resultSet;
+    final static String BOOK = "Book";
+    final static String JOURNAL = "Journal";
+    final  static String AV = "AV";
 
     Documents() throws SQLException {
         DBConnection dbConnection = new DBConnection();
         Connection connection = dbConnection.setConnection();
         statement = connection.createStatement();
+    }
+
+    public String[] getDocumentName(int idDoc) throws SQLException {
+        String type = getDocType(idDoc);
+        if (type.equals(BOOK)){
+            return book.getBookName(idDoc);
+        }else if (type.equals(JOURNAL)){
+            return journalArt.getJournalName(idDoc);
+        }else if (type.equals(AV)){
+            return av.getAVName(idDoc);
+        }else {
+            throw  new NumberFormatException();
+        }
     }
 
     /**
@@ -36,11 +55,11 @@ public class Documents {
 
         }
         if (book > 0) {
-            return "BOOK";
+            return BOOK;
         } else if (journal > 0) {
-            return "JOURNAL";
+            return JOURNAL;
         } else if (av > 0) {
-            return "AV";
+            return AV;
         } else {
             throw new NullPointerException("Something wrong in input or database");
         }

@@ -4,6 +4,17 @@ public class JournalArt extends Documents {
     JournalArt() throws SQLException {
     }
 
+    /**
+     *
+     * @param title
+     * @param author
+     * @param journalName
+     * @param issue
+     * @param editor
+     * @param shelf
+     * @param canCheckout
+     * @throws SQLException
+     */
     public void addJA(String title, String author, String journalName,
                       String issue, String editor, String shelf,
                       boolean canCheckout) throws SQLException {
@@ -22,5 +33,31 @@ public class JournalArt extends Documents {
         statement.executeUpdate("INSERT INTO documents (id_journal,shelf, canCheckout)" +
                 "VALUES (" + id_JA + ",'" + shelf + "'," + canCheckout + ")");
 
+    }
+
+    public int getJournalID(int idDoc) throws SQLException {
+        int idJournal = 0;
+        resultSet = statement.executeQuery("SELECT id_journal FROM documents " +
+                "WHERE id ='" + idDoc + "'");
+        while (resultSet.next()) {
+            idJournal = resultSet.getInt("id_journal");
+            System.out.println(idJournal);
+        }
+        if (idJournal == 0) {
+            throw new NullPointerException("Something going wrong. This is not a Journal.");
+        }
+        return idJournal;
+    }
+
+    public String[] getJournalName(int idDoc) throws SQLException {
+        int idJournal = getJournalID(idDoc);
+
+        String[] name = new String[2];
+        resultSet = statement.executeQuery("SELECT * FROM journal_articles WHERE id = '" + idJournal + "'");
+        while (resultSet.next()){
+            name[0] = resultSet.getNString("title");
+            name[1] = resultSet.getNString("author");
+        }
+        return name;
     }
 }
