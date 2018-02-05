@@ -32,12 +32,14 @@ public class Booking {
      * @param id_doc id of document from document table
      * @throws SQLException
      */
-    public void checkOut(int id_us, int id_doc, String type) throws SQLException {
+    public boolean checkOut(int id_us, int id_doc, String type) throws SQLException {
         Documents documents = new Documents();
         if (documents.canCheckOut(id_doc)) {
             documents.setCanCheckout(id_doc, false);
             addBooking(id_us, id_doc, type);
+            return true;
         }
+        return false;
     }
 
     /**
