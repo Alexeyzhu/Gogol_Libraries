@@ -35,7 +35,7 @@ public class JournalArt extends Documents {
 
     }
 
-    public int getJournalID(int idDoc) throws SQLException {
+    public static int getJournalID(int idDoc) throws SQLException {
         int idJournal = 0;
         resultSet = statement.executeQuery("SELECT id_journal FROM documents " +
                 "WHERE id ='" + idDoc + "'");
