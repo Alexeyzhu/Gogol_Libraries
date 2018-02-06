@@ -1,3 +1,5 @@
+package DataBase;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -66,7 +68,7 @@ public class GenerateDocumentTables {
 
     public void fillDocumentTables() throws SQLException {
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +
-                "VALUES('The Jungle Book','Rudyard Kipling','AST', 3, 2008, 0) ");
+                "VALUES(Documents.Book,'Rudyard Kipling','AST', 3, 2008, 0) ");
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +
                 "VALUES('Harry Potter','Joan Rowling', 'Eksmo', 2, 2015, 1) ");
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +

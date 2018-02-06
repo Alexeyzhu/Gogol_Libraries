@@ -1,3 +1,5 @@
+package DataBase;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.*;
@@ -5,7 +7,7 @@ public class DBConnection {
     Connection connection;
 
     // Put your URL here
-    String connectionUrl = "jdbc:sqlite:C:/Users/Алексей/IdeaProjects/Gogol_Libraries/sources/gogollib.db";
+    String connectionUrl = "jdbc:sqlite:/home/imazan/IdeaProjects/Gogol_Libraries/sources/gogollib.db";
 
     /**
      * Loader of drivers
