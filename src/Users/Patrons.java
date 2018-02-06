@@ -4,13 +4,21 @@ import DataBase.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.InputMismatchException;
 
 public class Patrons extends Users {
+    private static Statement statement;
+
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Patrons() throws SQLException {
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.setConnection();
-        statement = connection.createStatement();
     }
 
     /**
@@ -18,6 +26,8 @@ public class Patrons extends Users {
      *
      */
 
+    // Do smth with this method
+    // Maybe static?
     public String getDocument(String type, String name, String author) {
         if (type.equals("BOOK") || type.equals("JOURNAL") || type.equals("Documents.AV")) {
 

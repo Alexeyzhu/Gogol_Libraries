@@ -15,14 +15,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Users extends JFrame {
-    Statement statement;
-    ResultSet resultSet;
+    private static Statement statement;
+    private static ResultSet resultSet;
+
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     Users() throws SQLException {
         super("Glib");
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.setConnection();
-        statement = connection.createStatement();
     }
 
     /**

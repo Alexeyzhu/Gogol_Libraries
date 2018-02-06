@@ -11,7 +11,8 @@ public class AV extends Documents {
      * @param canCheckout
      * @throws SQLException
      */
-    public void addAV(String title, String author, String shelf,
+    // we have mistakes in this method @HardLight
+    public static void addAV(String title, String author, String shelf,
                         boolean canCheckout) throws SQLException {
         int idAV = 0;
 

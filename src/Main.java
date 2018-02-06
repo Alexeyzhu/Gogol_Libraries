@@ -1,3 +1,4 @@
+import DataBase.DropAllTables;
 import DataBase.GenerateDocumentTables;
 import DataBase.GenerateUserTables;
 

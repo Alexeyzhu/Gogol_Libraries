@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Student extends Patrons {
-    Student(String name) throws SQLException{
+    public Student(String name) throws SQLException{
 
 
         JFrame frame = new JFrame(name);

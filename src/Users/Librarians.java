@@ -1,5 +1,7 @@
 package Users;
 
+import DataBase.DBConnection;
+
 import javax.management.InstanceAlreadyExistsException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,15 +9,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Librarians extends Users {
+    private static Statement statement;
+    private static ResultSet resultSet;
 
-    public Librarians() throws SQLException {
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.setConnection();
-        statement = connection.createStatement();
+
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    Statement statement;
-    ResultSet resultSet;
+    public Librarians() throws SQLException {
+    }
+
 
     /**
      * Create user in the table users
