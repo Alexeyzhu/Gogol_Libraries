@@ -48,26 +48,6 @@ public class Users extends JFrame {
 
     }
 
-    public boolean hasSuchDocument(int idUser, int idDoc) throws SQLException {
-        boolean decision = false;
-        int counter = 0;
-        if (Documents.getDocType(idDoc).equals("Book")){
-
-        }else if (Documents.getDocType(idDoc).equals("Book")){
-
-        }else if (Documents.getDocType(idDoc).equals("Book")){
-
-        }else{
-            throw new NumberFormatException("Wrong document format");
-        }
-
-
-        while (resultSet.next()){
-
-        }
-        return decision;
-    }
-
     /**
      * Returns the id of user according to its login and password
      *

@@ -43,7 +43,7 @@ public class Booking {
             if (Documents.isReference(idDoc)){
                 throw new WrongDocumentException("You try check out reference book");
             }
-            Documents.setCanCheckout(idDoc, false);
+            Documents.setCanCheckout(idDoc, 0);
             addBooking(idUser, idDoc, type);
             return true;
         }
@@ -79,7 +79,7 @@ public class Booking {
         Timestamp bookingDate = new Timestamp(new Date().getTime());
         Timestamp timeForReturn = new Timestamp(bookingDate.getTime() + additionalTime);
         statement.executeUpdate("INSERT INTO booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
-                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "','" + timeForReturn + "','FALSE' )");
+                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "','" + timeForReturn + "', 0 )");
     }
 
     private boolean isAlreadyHas(int idUser, int idDoc) throws SQLException {

@@ -117,9 +117,9 @@ public class Documents {
      * @param canCheckOut
      * @throws SQLException
      */
-    public static void setCanCheckout(int idDoc, boolean canCheckOut) throws SQLException {
+    public static void setCanCheckout(int idDoc, int canCheckOut) throws SQLException {
         statement.executeUpdate("UPDATE documents " +
-                "SET canCheckout = '" + canCheckOut +
+                "SET canCheckout = '" + 0 +
                 "' WHERE id = '" + idDoc + "'");
     }
 
@@ -134,8 +134,9 @@ public class Documents {
      * @throws SQLException
      */
     public static boolean isReference(int idDoc) throws SQLException {
+        System.out.println(idDoc + " IDDOC");
         boolean isRef = false;
-        resultSet = statement.executeQuery("SELECT isReference FROM documents " +
+        resultSet = statement.executeQuery("SELECT * FROM documents " +
                 "WHERE id = '" + idDoc + "'");
         while (resultSet.next()) {
             isRef = resultSet.getBoolean("isReference");

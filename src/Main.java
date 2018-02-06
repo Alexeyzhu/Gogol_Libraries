@@ -10,10 +10,10 @@ public class Main {
 //        System.out.println(Documents.canCheckOut(3));
 //        System.out.println("Document type = " + Documents.getDocType(2));
 //        booking.checkOut(1, 2, "Student");
-        booking.checkOut(1,1,"Student");
-        booking.checkOut(2,1,"Faculty");
-        booking.checkOut(3,2,"Student");
-        booking.checkOut(4,3,"Student");
+   //     booking.checkOut(1,1,"Student");
+   //     booking.checkOut(2,2,"Faculty");
+        booking.checkOut(1,2,"Student");
+     //   booking.checkOut(2,5,"Faculty");
 //        Users users = new Users();
 //        Librarians librarians = new Librarians();
 //        librarians.addPerson("Dan", "Zhuchkov", "Innopolis", "123456789", "L");
