@@ -1,3 +1,4 @@
+import javax.management.InstanceAlreadyExistsException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,21 +23,33 @@ public class Book extends Documents {
     public static void addBook(String name, String author, String publisher,
                         String edition, String editionYear,
                         boolean isBestSeller, String shelf,
-                        boolean canCheckout, boolean isReference) throws SQLException {
-        int id_book = 0;
+                        boolean canCheckout, boolean isReference) throws SQLException, InstanceAlreadyExistsException {
+
+        // Get exception if we already have this book on this shelf
+        resultSet = statement.executeQuery("SELECT shelf FROM library.books WHERE name = '" + name +
+                "' AND author = '" + author + "' AND publisher = '" + publisher + "' AND edition = '" + edition +
+                "' AND edition_year = '" + editionYear + "' AND isBestseller = " + isBestSeller +
+                " AND isReference = " + isReference + "");
+        while (resultSet.next()){
+            if (resultSet.getNString("shelf").equals(shelf)) {
+                throw new InstanceAlreadyExistsException("This book already on this shelf");
+            }
+        }
+
+        int idBook = 0;
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller, isReference) " +
                 "VALUES ('" + name + "','" + author + "','" + publisher + "'," +
-                "'" + edition + "','" + editionYear + "'," + isBestSeller + ") ");
+                "'" + edition + "','" + editionYear + "'," + isBestSeller + "','" + isReference + ") ");
         resultSet = statement.executeQuery("SELECT id FROM books " +
                 "WHERE name = '" + name + "' AND author = '" + author + "' AND publisher = '" + publisher + "'" +
                 " AND edition = '" + edition + "' AND edition_year = '" + editionYear + "' ");
 
         while (resultSet.next()) {
-            id_book = resultSet.getInt("id");
+            idBook = resultSet.getInt("id");
         }
 
         statement.executeUpdate("INSERT INTO documents (id_book,shelf, canCheckout)" +
-                "VALUES (" + id_book + ",'" + shelf + "'," + canCheckout + ")");
+                "VALUES (" + idBook + ",'" + shelf + "'," + canCheckout + ")");
 
     }
 
