@@ -36,11 +36,12 @@ public class Booking {
     public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
         // checks if this book is available
         idDoc = chooseDocumentObject(idDoc);
+
         if (idDoc == ALL_CHECK_OUT) {
             throw new NullPointerException("There is no such book or all of them are checked out");
         }
 
-        boolean isReferenceBook = Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isReference(idDoc);
+        boolean isReferenceBook = Documents.getDocType(idDoc).equals(Documents.BOOK) && Documents.isReference(idDoc);
         if (Documents.canCheckOut(idDoc)) {
             if (isReferenceBook){
                 throw new WrongDocumentException("You try check out reference book");
@@ -76,8 +77,8 @@ public class Booking {
 
         Timestamp bookingDate = new Timestamp(new Date().getTime());
         Timestamp timeForReturn = new Timestamp(bookingDate.getTime() + additionalTime);
-        statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
-                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "'," + timeForReturn + ",FALSE )");
+        statement.executeUpdate("INSERT INTO booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
+                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "','" + timeForReturn + "','FALSE' )");
     }
 
     public int chooseDocumentObject(int idDoc) throws SQLException {
