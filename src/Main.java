@@ -10,9 +10,10 @@ public class Main {
         GenerateUserTables generateUserTables = new GenerateUserTables();
         GenerateDocumentTables generateDocumentTables = new GenerateDocumentTables();
         DropAllTables dropAllTables = new DropAllTables();
-        generateDocumentTables.createDocumentTables();
-        generateUserTables.createUserTable();
-        dropAllTables.dropAllTables();
+//        generateDocumentTables.createDocumentTables();
+//        generateUserTables.createUserTable();
+//        dropAllTables.dropAllTables();
+//        generateDocumentTables.fillDocumentTables();
 
 //        Booking booking = new Booking();
 //        System.out.println(Documents.canCheckOut(3));

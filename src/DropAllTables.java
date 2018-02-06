@@ -10,7 +10,7 @@ public class DropAllTables {
     public void dropAllTables() throws SQLException {
         statement.executeUpdate("DROP TABLE av");
         statement.executeUpdate("DROP TABLE books");
-        statement.executeUpdate("DROP TABLE journal_articles");
+        statement.executeUpdate("DROP TABLE journals");
         statement.executeUpdate("DROP TABLE documents");
         statement.executeUpdate("DROP TABLE booking_sys");
         statement.executeUpdate("DROP TABLE users");
