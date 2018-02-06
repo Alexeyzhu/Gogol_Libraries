@@ -9,8 +9,7 @@ public class Booking {
     private final static long TWO_WEEKS_IN_SEC = 1209600;
     private final static int CONVERT_SEC_IN_MILLISEC = 1000;
 
-    static Statement statement;
-    static ResultSet resultSet;
+    private static Statement statement;
 
     Booking() throws SQLException {
         DBConnection dbConnection = new DBConnection();
