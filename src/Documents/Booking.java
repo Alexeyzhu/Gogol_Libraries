@@ -1,5 +1,6 @@
 package Documents;
 
+import DataBase.DBConnection;
 import sun.plugin.dom.exception.WrongDocumentException;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -33,7 +34,7 @@ public class Booking {
      * @param idDoc  id of document from document table
      * @throws SQLException
      */
-    public boolean checkOut(int idUser, int idDoc, String type) throws SQLException, InstanceAlreadyExistsException {
+    public static boolean checkOut(int idUser, int idDoc, String type) throws SQLException, InstanceAlreadyExistsException {
         // checks if this book is available
         idDoc = chooseDocumentObject(idDoc);
 
@@ -59,7 +60,7 @@ public class Booking {
      * @param idDoc  id of document from document table
      * @throws SQLException
      */
-    private void addBooking(int idUser, int idDoc, String type) throws SQLException, InstanceAlreadyExistsException {
+    private static void addBooking(int idUser, int idDoc, String type) throws SQLException, InstanceAlreadyExistsException {
         if (isAlreadyHas(idUser, idDoc)){
             throw new InstanceAlreadyExistsException("Patron already check out this document");
         }
@@ -84,7 +85,7 @@ public class Booking {
                 "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "','" + timeForReturn + "', 0 )");
     }
 
-    private boolean isAlreadyHas(int idUser, int idDoc) throws SQLException {
+    private static boolean isAlreadyHas(int idUser, int idDoc) throws SQLException {
         resultSet = statement.executeQuery("SELECT * FROM booking_sys WHERE id_users = '" + idUser + "'");
         while (resultSet.next()){
             int bookedIdDoc = resultSet.getInt("id_doc");
@@ -116,7 +117,7 @@ public class Booking {
         return false;
     }
 
-    public int chooseDocumentObject(int idDoc) throws SQLException {
+    public static int chooseDocumentObject(int idDoc) throws SQLException {
         if (Documents.canCheckOut(idDoc)) {
             return idDoc;
         } else {
