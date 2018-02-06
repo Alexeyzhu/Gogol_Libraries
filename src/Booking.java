@@ -42,9 +42,8 @@ public class Booking {
             throw new NullPointerException("There is no such book or all of them are checked out");
         }
 
-        boolean isReferenceBook = Documents.getDocType(idDoc).equals(Documents.BOOK) && Documents.isReference(idDoc);
         if (Documents.canCheckOut(idDoc)) {
-            if (isReferenceBook){
+            if (Documents.isReference(idDoc)){
                 throw new WrongDocumentException("You try check out reference book");
             }
             Documents.setCanCheckout(idDoc, false);
