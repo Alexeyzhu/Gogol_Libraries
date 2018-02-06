@@ -23,9 +23,6 @@ public class Booking {
         }
     }
 
-    Booking() throws SQLException {
-    }
-
     /**
      * Insert user's and document's ID into booking table and
      * system gives unique ID to this booking transaction

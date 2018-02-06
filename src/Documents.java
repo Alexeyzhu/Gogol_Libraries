@@ -22,10 +22,6 @@ public class Documents {
         }
     }
 
-    // Are we really need this constructor?
-    Documents() throws SQLException {
-    }
-
     public static String[] getDocumentName(int idDoc) throws SQLException {
         String type = getDocType(idDoc);
         switch (type) {

@@ -2,9 +2,6 @@ import javax.management.InstanceAlreadyExistsException;
 import java.sql.SQLException;
 
 public class Book extends Documents {
-    // Are we really need this constructor?
-    Book() throws SQLException {
-    }
 
     /**
      * Add book to the books table
