@@ -1,16 +1,13 @@
 import javax.swing.text.Document;
 import java.lang.invoke.WrongMethodTypeException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Date;
 
 public class Booking {
-    final static long FOUR_WEEKS_IN_SEC = 2419200;
-    final static long THREE_WEEKS_IN_SEC = 1814400;
-    final static long TWO_WEEKS_IN_SEC = 1209600;
-    final static int CONVERT_SEC_IN_MILLISEC = 1000;
+    private final static long FOUR_WEEKS_IN_SEC = 2419200;
+    private final static long THREE_WEEKS_IN_SEC = 1814400;
+    private final static long TWO_WEEKS_IN_SEC = 1209600;
+    private final static int CONVERT_SEC_IN_MILLISEC = 1000;
 
     static Statement statement;
     static ResultSet resultSet;
@@ -30,7 +27,6 @@ public class Booking {
      * @throws SQLException
      */
     public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
-        Documents documents = new Documents();
         if (Documents.canCheckOut(idDoc)) {
             Documents.setCanCheckout(idDoc, false);
             addBooking(idUser, idDoc, type);
@@ -47,35 +43,24 @@ public class Booking {
      * @throws SQLException
      */
     private void addBooking(int idUser, int idDoc, String type) throws SQLException {
-        Date date = new Date();
-        Date dateForReturn = new Date();
-        long additionalTime = 0;
+        long additionalTime;
 
-        switch (type) {
-            case "Patron":
+        if (Documents.getDocType(idDoc).equals(Documents.BOOK)) {
+            if (Book.isBestSeller(Book.getBookID(idDoc))){
+                additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+            } else if (type.equals("Faculty")){
                 additionalTime = FOUR_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
-                break;
-            case "Student":
+            } else {
                 additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
-                break;
-            default:
-                throw new WrongMethodTypeException("User isn't \"Faculty\" or \"Patron\"");
-        }
-
-        // Bestseller only for two week. For all Faculty
-        if (Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isBestSeller(Book.getBookID(idDoc))) {
+            }
+        } else {
             additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
         }
 
-        dateForReturn.setTime(date.getTime() + additionalTime);
-
-        java.sql.Timestamp bookingDate = new java.sql.Timestamp(date.getTime());
-        java.sql.Timestamp timeForReturn = new java.sql.Timestamp(dateForReturn.getTime());
+        Timestamp bookingDate = new Timestamp(new Date().getTime());
+        Timestamp timeForReturn = new Timestamp(bookingDate.getTime() + additionalTime);
         statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
                 "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "'," + timeForReturn + ",FALSE )");
     }
 
-    public int iteratorDocuments(int idDoc) {
-        return 0;
-    }
 }
