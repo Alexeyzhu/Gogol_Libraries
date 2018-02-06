@@ -1,5 +1,6 @@
 import sun.plugin.dom.exception.WrongDocumentException;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.lang.invoke.WrongMethodTypeException;
 import java.sql.*;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class Booking {
      * @param idDoc  id of document from document table
      * @throws SQLException
      */
-    public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
+    public boolean checkOut(int idUser, int idDoc, String type) throws SQLException, InstanceAlreadyExistsException {
         // checks if this book is available
         idDoc = chooseDocumentObject(idDoc);
 
@@ -60,7 +61,11 @@ public class Booking {
      * @param idDoc  id of document from document table
      * @throws SQLException
      */
-    private void addBooking(int idUser, int idDoc, String type) throws SQLException {
+    private void addBooking(int idUser, int idDoc, String type) throws SQLException, InstanceAlreadyExistsException {
+        if (isAlreadyHas(idUser, idDoc)){
+            throw new InstanceAlreadyExistsException("Patron already check out this document");
+        }
+
         long additionalTime;
 
         if (Documents.getDocType(idDoc).equals(Documents.BOOK)) {
@@ -79,6 +84,16 @@ public class Booking {
         Timestamp timeForReturn = new Timestamp(bookingDate.getTime() + additionalTime);
         statement.executeUpdate("INSERT INTO booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
                 "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "','" + timeForReturn + "','FALSE' )");
+    }
+
+    private boolean isAlreadyHas(int idUser, int idDoc) throws SQLException {
+        resultSet = statement.executeQuery("SELECT * FROM booking_sys WHERE id_users = '" + idUser + "'");
+        while (resultSet.next()){
+            if (idDoc == resultSet.getInt("id_doc")){
+                return true;
+            }
+        }
+        return false;
     }
 
     public int chooseDocumentObject(int idDoc) throws SQLException {
