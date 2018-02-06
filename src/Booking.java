@@ -89,8 +89,30 @@ public class Booking {
     private boolean isAlreadyHas(int idUser, int idDoc) throws SQLException {
         resultSet = statement.executeQuery("SELECT * FROM booking_sys WHERE id_users = '" + idUser + "'");
         while (resultSet.next()){
-            if (idDoc == resultSet.getInt("id_doc")){
+            int bookedIdDoc = resultSet.getInt("id_doc");
+
+            if (idDoc == bookedIdDoc){
                 return true;
+            }
+
+            String newDocType = Documents.getDocType(idDoc);
+            String bookedDocType = Documents.getDocType(bookedIdDoc);
+
+            if (newDocType.equals(bookedDocType)) {
+                switch (Documents.getDocType(idDoc)) {
+                    case Documents.BOOK:
+                        if (Book.getBookID(idDoc) == Book.getBookID(bookedIdDoc)) return true;
+                        break;
+                    case Documents.JOURNAL:
+                        if (JournalArt.getJournalID(idDoc) == JournalArt.getJournalID(bookedIdDoc)) return true;
+                        break;
+                    case Documents.AUDIO_VIDEO_MATERIALS:
+                        if (AV.getAVID(idDoc) == AV.getAVID(bookedIdDoc)) return true;
+                        break;
+                    default:
+                        throw new WrongMethodTypeException("Document with this id " + idDoc + " not a \"Book\", " +
+                                "\"Journal\" or \"AV materials\"");
+                }
             }
         }
         return false;
