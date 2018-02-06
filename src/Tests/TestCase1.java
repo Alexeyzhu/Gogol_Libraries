@@ -1,5 +1,9 @@
 package Tests;
 
+
+import Documents.*;
+import Users.*;
+
 import javax.management.InstanceAlreadyExistsException;
 import java.sql.SQLException;
 
@@ -11,7 +15,7 @@ public class TestCase1 {
         Patrons patrons = new Patrons();
         Booking booking = new Booking();
 
-//        booking.checkOut(patrons.getID("f.galeev","45640902"),1, documents.getDocType(1));
+        booking.checkOut(patrons.getID("f.galeev","45640902"),1, Documents.getDocType(1));
 //        lib.getBookedDoc();
     }
 }

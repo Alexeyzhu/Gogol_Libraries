@@ -1,3 +1,6 @@
+import Users.Librarians;
+import Users.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +16,7 @@ public class LogIn extends JFrame {
     private JTextField login = new JTextField("", 5);
     private JButton ok = new JButton("Ok");
     private JButton cancel = new JButton("Cancel");
-    private String[] items = {"Librarian", "Faculty", "Student"};
+    private String[] items = {"Librarian", "Users.Faculty", "Users.Student"};
     private JComboBox list = new JComboBox(items);
 
 
@@ -67,14 +70,14 @@ public class LogIn extends JFrame {
                                  }
 
                                  private boolean isStudent() {
-                                     if (list.getSelectedItem().equals("Student")) {
+                                     if (list.getSelectedItem().equals("Users.Student")) {
                                          return true;
                                      }
                                      return false;
                                  }                                                      //Обращение к БД и проверка, кто есть кто
 
                                  private boolean isFaculty() {
-                                     if (list.getSelectedItem().equals("Faculty")) {
+                                     if (list.getSelectedItem().equals("Users.Faculty")) {
                                          return true;
                                      }
                                      return false;
