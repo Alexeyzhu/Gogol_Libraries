@@ -13,6 +13,7 @@ public class Main {
         booking.checkOut(1,1,"Student");
         booking.checkOut(2,1,"Faculty");
         booking.checkOut(3,2,"Student");
+        booking.checkOut(4,3,"Student");
 //        Users users = new Users();
 //        Librarians librarians = new Librarians();
 //        librarians.addPerson("Dan", "Zhuchkov", "Innopolis", "123456789", "L");
