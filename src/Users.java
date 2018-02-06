@@ -27,7 +27,7 @@ public class Users extends JFrame {
      * password and login right. GUI will get the level of access of user
      * Use it in order to pass users into system
      *
-     * @param login login of user
+     * @param login    login of user
      * @param password password of user to check
      * @return level of access library or patron
      * @throws SQLException, OBJECT_NOT_EXIST
@@ -38,7 +38,7 @@ public class Users extends JFrame {
             String type = "";
             resultSet = statement.executeQuery("SELECT type FROM users " +
                     "WHERE id = '" + getID(login, password) + "'");
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 type = resultSet.getString("type");
             }
             return type;
@@ -48,10 +48,30 @@ public class Users extends JFrame {
 
     }
 
+    public boolean hasSuchDocument(int idUser, int idDoc) throws SQLException {
+        boolean decision = false;
+        int counter = 0;
+        if (Documents.getDocType(idDoc).equals("Book")){
+
+        }else if (Documents.getDocType(idDoc).equals("Book")){
+
+        }else if (Documents.getDocType(idDoc).equals("Book")){
+
+        }else{
+            throw new NumberFormatException("Wrong document format");
+        }
+
+
+        while (resultSet.next()){
+
+        }
+        return decision;
+    }
+
     /**
      * Returns the id of user according to its login and password
      *
-     * @param login login of user
+     * @param login    login of user
      * @param password password of user to check
      * @return id of person in the database
      * @throws SQLException
@@ -72,10 +92,10 @@ public class Users extends JFrame {
      * Checks person's login and password if they are in the database
      * and suitable to each other
      *
-     * @param login login of user
+     * @param login    login of user
      * @param password password of user to check
      * @return true - if login and password are in system and belong to one person
-     *         false - if password do not suitable to the login or login absent in system
+     * false - if password do not suitable to the login or login absent in system
      * @throws SQLException
      */
     public boolean checkLoginPassword(String login, String password) throws SQLException {

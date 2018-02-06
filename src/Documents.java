@@ -126,4 +126,25 @@ public class Documents {
                 "SET canCheckout = '" + canCheckOut +
                 "' WHERE id = '" + idDoc + "'");
     }
+
+    /**
+     * Query:
+     * true - if book is Reference book
+     * false - otherwise
+     *
+     * @param idDoc id of the book from the books table
+     * @return true - if book is Reference book
+     * false - otherwise
+     * @throws SQLException
+     */
+    public static boolean isReference(int idDoc) throws SQLException {
+        boolean isRef = false;
+        resultSet = statement.executeQuery("SELECT isReference FROM documents " +
+                "WHERE id = '" + idDoc + "'");
+        while (resultSet.next()) {
+            isRef = resultSet.getBoolean("isReference");
+            System.out.println("This book is Reference book - " + isRef);
+        }
+        return isRef;
+    }
 }
