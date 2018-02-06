@@ -112,7 +112,7 @@ public class Book extends Documents {
         // check if it really a book or not
         if (type.equals("Book")) {
             int idBook = getBookID(idDoc);
-            resultSet = statement.executeQuery("SELECT isBestSeller FROM library.books " +
+            resultSet = statement.executeQuery("SELECT isBestSeller FROM books " +
                     "WHERE id = '" + idBook + "'");
             while (resultSet.next()) {
                 isBest = resultSet.getBoolean("isBestSeller");

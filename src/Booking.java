@@ -27,8 +27,6 @@ public class Booking {
      * @throws SQLException
      */
     public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
-        if (Documents.canCheckOut(idDoc) && !Book.isReference(Book.getBookID(idDoc))) {
-    public void checkOut(int idUser, int idDoc, String type) throws SQLException {
         // checks if this book is available
         idDoc = chooseDocumentObject(idDoc);
         if (idDoc == 0) {
@@ -37,9 +35,10 @@ public class Booking {
         if (Documents.canCheckOut(idDoc)) {
             Documents.setCanCheckout(idDoc, false);
             addBooking(idUser, idDoc, type);
+            return true;
         }
+        return false;
     }
-        }
 
     /**
      * Insert user's and document's into to booking table
@@ -52,9 +51,9 @@ public class Booking {
         long additionalTime;
 
         if (Documents.getDocType(idDoc).equals(Documents.BOOK)) {
-            if (Book.isBestSeller(Book.getBookID(idDoc))){
+            if (Book.isBestSeller(Book.getBookID(idDoc))) {
                 additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
-            } else if (type.equals("Faculty")){
+            } else if (type.equals("Faculty")) {
                 additionalTime = FOUR_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
             } else {
                 additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
