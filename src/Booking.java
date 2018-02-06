@@ -1,3 +1,4 @@
+import javax.swing.text.Document;
 import java.lang.invoke.WrongMethodTypeException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -55,7 +56,7 @@ public class Booking {
                 additionalTime = FOUR_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
                 break;
             case "Student":
-                if (Documents.getDocType(idDoc).equals("BOOK") && Book.isBestSeller(idDoc)) {
+                if (Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isBestSeller(Book.getBookID(idDoc))) {
                     additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
                 } else {
                     additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
