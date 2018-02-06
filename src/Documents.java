@@ -140,7 +140,7 @@ public class Documents {
                 "WHERE id = '" + idDoc + "'");
         while (resultSet.next()) {
             isRef = resultSet.getBoolean("isReference");
-            System.out.println("This book is Reference book - " + isRef);
+            System.out.println("This document is Reference : " + isRef);
         }
         return isRef;
     }

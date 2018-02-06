@@ -118,41 +118,32 @@ public class Booking {
         if (Documents.canCheckOut(idDoc)) {
             return idDoc;
         } else {
-            int newIdDoc = ALL_CHECK_OUT;
+            int idSearch;
             switch (Documents.getDocType(idDoc)) {
                 case Documents.BOOK:
-                    int idBook = Book.getBookID(idDoc);
-                    System.out.println("Book id = " + idBook);
-
-                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idBook + "'");
-                    while (resultSet.next()) {
-                        newIdDoc = resultSet.getInt("id");
-                    }
+                    idSearch = Book.getBookID(idDoc);
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idSearch + "'");
                     break;
                 case Documents.JOURNAL:
-                    int idJournal = JournalArt.getJournalID(idDoc);
-                    System.out.println("Journal id = " + idJournal);
-
-                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_journal = '" + idJournal + "'");
-                    while (resultSet.next()) {
-                        newIdDoc = resultSet.getInt("id");
-                    }
+                    idSearch = JournalArt.getJournalID(idDoc);
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_journal = '" + idSearch + "'");
                     break;
                 case Documents.AUDIO_VIDEO_MATERIALS:
-                    int idAV = AV.getAVID(idDoc);
-                    System.out.println("AV id = " + idAV);
-
-                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idAV + "'");
-                    while (resultSet.next()) {
-                        newIdDoc = resultSet.getInt("id");
-                    }
+                    idSearch = AV.getAVID(idDoc);
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idSearch + "'");
                     break;
                 default:
                     throw new WrongMethodTypeException("Document with this id " + idDoc + " not a \"Book\", " +
                             "\"Journal\" or \"AV materials\"");
             }
+            System.out.println(Documents.getDocType(idDoc) + " id = " + idSearch);
 
+            int newIdDoc = ALL_CHECK_OUT;
+            while (resultSet.next()) {
+                newIdDoc = resultSet.getInt("id");
+            }
             System.out.println(Documents.getDocType(newIdDoc) + " id = " + newIdDoc + " can check out : " + Documents.canCheckOut(idDoc));
+
             if (Documents.canCheckOut(newIdDoc)) {
                 return newIdDoc;
             }
