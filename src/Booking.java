@@ -1,15 +1,13 @@
 import sun.plugin.dom.exception.WrongDocumentException;
 
-import javax.swing.text.Document;
 import java.lang.invoke.WrongMethodTypeException;
 import java.sql.*;
 import java.util.Date;
 
 public class Booking {
-    private final static long FOUR_WEEKS_IN_SEC = 2419200;
-    private final static long THREE_WEEKS_IN_SEC = 1814400;
-    private final static long TWO_WEEKS_IN_SEC = 1209600;
-    private final static int CONVERT_SEC_IN_MILLISEC = 1000;
+    private final static long FOUR_WEEKS_IN_MILLISECONDS = 2419200000L;
+    private final static long THREE_WEEKS_IN_MILLISECONDS = 1814400000L;
+    private final static long TWO_WEEKS_IN_MILLISECONDS = 1209600000L;
     private final static int ALL_CHECK_OUT = 0;
 
     private static Statement statement;
@@ -66,14 +64,14 @@ public class Booking {
 
         if (Documents.getDocType(idDoc).equals(Documents.BOOK)) {
             if (Book.isBestSeller(Book.getBookID(idDoc))) {
-                additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+                additionalTime = TWO_WEEKS_IN_MILLISECONDS;
             } else if (type.equals("Faculty")) {
-                additionalTime = FOUR_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+                additionalTime = FOUR_WEEKS_IN_MILLISECONDS;
             } else {
-                additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+                additionalTime = THREE_WEEKS_IN_MILLISECONDS;
             }
         } else {
-            additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+            additionalTime = TWO_WEEKS_IN_MILLISECONDS;
         }
 
         Timestamp bookingDate = new Timestamp(new Date().getTime());
