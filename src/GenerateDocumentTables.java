@@ -2,10 +2,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class GenerateDocumentTables {
-    Statement statement;
+    private static Statement statement;
 
-    GenerateDocumentTables() throws SQLException {
-        statement = new DBConnection().setConnection().createStatement();
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createDocumentTables() throws SQLException {

@@ -2,10 +2,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class GenerateUserTables {
-    Statement statement;
+    private static Statement statement;
 
-    GenerateUserTables() throws SQLException {
-        statement = new DBConnection().setConnection().createStatement();
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createUserTable() throws SQLException {

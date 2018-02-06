@@ -2,9 +2,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DropAllTables {
-    Statement statement;
-    DropAllTables() throws SQLException {
-        statement = new DBConnection().setConnection().createStatement();
+    private static Statement statement;
+
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void dropAllTables() throws SQLException {
