@@ -26,7 +26,7 @@ public class Booking {
      * @throws SQLException
      */
     public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
-        if (Documents.canCheckOut(idDoc)) {
+        if (Documents.canCheckOut(idDoc) && !Book.isReference(Book.getBookID(idDoc))) {
             Documents.setCanCheckout(idDoc, false);
             addBooking(idUser, idDoc, type);
             return true;
