@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class Documents {
     final static String BOOK = "Book";
     final static String JOURNAL = "Journal";
-    final  static String AUDIO_VIDEO_MATERIALS = "Audio & Video materials";
+    final static String AUDIO_VIDEO_MATERIALS = "Audio & Video materials";
 
     static ResultSet resultSet;
     static Statement statement;
@@ -60,7 +60,6 @@ public class Documents {
             book = resultSet.getBoolean("id_book");
             journal = resultSet.getBoolean("id_journal");
             av = resultSet.getBoolean("id_av");
-
         }
 
         if (book) {
@@ -105,27 +104,26 @@ public class Documents {
      */
     public static boolean canCheckOut(int idDoc) throws SQLException, OBJECT_NOT_EXIST {
         boolean check = false;
-        resultSet = statement.executeQuery("SELECT canCheckout FROM documents " +
+        resultSet = statement.executeQuery("SELECT * FROM documents " +
                 "WHERE id = '" + idDoc + "'");
 
-        // can you transform 'canCheckOut' to constant?
         while (resultSet.next()) {
             check = resultSet.getBoolean("canCheckOut");
-            if (!check)  throw new OBJECT_NOT_EXIST("Document with this ID = " + idDoc + " doesn't exist");
+          //  if (!check) throw new OBJECT_NOT_EXIST("Document with this ID = " + idDoc + " doesn't exist");
         }
-
         return check;
     }
 
     /**
      * Set parameter canCheckOut for document
      *
-     * @param idDoc ID of document
+     * @param idDoc       ID of document
      * @param canCheckOut
      * @throws SQLException
      */
     public static void setCanCheckout(int idDoc, boolean canCheckOut) throws SQLException {
-        statement.executeUpdate("UPDATE library.documents SET canCheckout = " + canCheckOut +
-                " WHERE id = '" + idDoc + "'");
+        statement.executeUpdate("UPDATE documents " +
+                "SET canCheckout = '" + canCheckOut +
+                "' WHERE id = '" + idDoc + "'");
     }
 }

@@ -1,5 +1,4 @@
 import javax.management.InstanceAlreadyExistsException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Book extends Documents {
@@ -21,16 +20,16 @@ public class Book extends Documents {
      * @throws SQLException
      */
     public static void addBook(String name, String author, String publisher,
-                        String edition, String editionYear,
-                        boolean isBestSeller, String shelf,
-                        boolean canCheckout, boolean isReference) throws SQLException, InstanceAlreadyExistsException {
+                               String edition, String editionYear,
+                               boolean isBestSeller, String shelf,
+                               boolean canCheckout, boolean isReference) throws SQLException, InstanceAlreadyExistsException {
 
         // Get exception if we already have this book on this shelf
         resultSet = statement.executeQuery("SELECT shelf FROM library.books WHERE name = '" + name +
                 "' AND author = '" + author + "' AND publisher = '" + publisher + "' AND edition = '" + edition +
                 "' AND edition_year = '" + editionYear + "' AND isBestseller = " + isBestSeller +
                 " AND isReference = " + isReference + "");
-        while (resultSet.next()){
+        while (resultSet.next()) {
             if (resultSet.getNString("shelf").equals(shelf)) {
                 throw new InstanceAlreadyExistsException("This book already on this shelf");
             }
@@ -65,7 +64,7 @@ public class Book extends Documents {
         final int BOOK_DOES_NOT_EXIST = 0;
 
         int id_book = BOOK_DOES_NOT_EXIST;
-        resultSet = statement.executeQuery("SELECT id_book FROM documents " +
+        resultSet = statement.executeQuery("SELECT * FROM documents " +
                 "WHERE id ='" + idDoc + "'");
 
         // can you transform 'id_book' to constant?
@@ -82,7 +81,6 @@ public class Book extends Documents {
     }
 
     /**
-     *
      * @param idDoc
      * @return
      * @throws SQLException
@@ -91,7 +89,7 @@ public class Book extends Documents {
         int idBook = getBookID(idDoc);
         String[] name = new String[2];
         resultSet = statement.executeQuery("SELECT * FROM books WHERE id = '" + idBook + "'");
-        while (resultSet.next()){
+        while (resultSet.next()) {
             name[0] = resultSet.getNString("name");
             name[1] = resultSet.getNString("author");
         }
@@ -103,19 +101,26 @@ public class Book extends Documents {
      * true - if book is Bestseller
      * false - otherwise
      *
-     * @param idBook id of the book from the books table
+     * @param idDoc id of the book from the documents table
      * @return true - if book is Bestseller
      * false - otherwise
      * @throws SQLException
      */
-    public static boolean isBestSeller(int idBook) throws SQLException {
+    public static boolean isBestSeller(int idDoc) throws SQLException {
         boolean isBest = false;
-        resultSet = statement.executeQuery("SELECT isBestSeller FROM library.books " +
-                "WHERE id = '" + idBook + "'");
-        while (resultSet.next()) {
-            isBest = resultSet.getBoolean("isBestSeller");
-            System.out.println("This book is BestSeller - " + isBest);
+        String type = Documents.getDocType(idDoc);
+        // check if it really a book or not
+        if (type.equals("Book")) {
+            int idBook = getBookID(idDoc);
+            resultSet = statement.executeQuery("SELECT isBestSeller FROM library.books " +
+                    "WHERE id = '" + idBook + "'");
+            while (resultSet.next()) {
+                isBest = resultSet.getBoolean("isBestSeller");
+                System.out.println("This book is BestSeller - " + isBest);
+            }
+            return isBest;
+        } else {
+            return false;
         }
-        return isBest;
     }
 }

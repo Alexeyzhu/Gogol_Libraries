@@ -1,4 +1,3 @@
-import javax.swing.text.Document;
 import java.lang.invoke.WrongMethodTypeException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,53 +28,70 @@ public class Booking {
      * @param idDoc  id of document from document table
      * @throws SQLException
      */
-    public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
-        Documents documents = new Documents();
+    public void checkOut(int idUser, int idDoc, String type) throws SQLException {
+        // checks if this book is available
+        idDoc = chooseDocumentObject(idDoc);
+        if (idDoc == 0) {
+            throw new NullPointerException("There is no such book or all of them are checked out");
+        }
         if (Documents.canCheckOut(idDoc)) {
             Documents.setCanCheckout(idDoc, false);
             addBooking(idUser, idDoc, type);
-            return true;
         }
-        return false;
     }
 
     /**
      * Insert user's and document's into to booking table
      *
-     * @param idUser id of user from user table
-     * @param idDoc  id of document from document table
+     * @param id_us  id of user from user table
+     * @param id_doc id of document from document table
      * @throws SQLException
      */
-    private void addBooking(int idUser, int idDoc, String type) throws SQLException {
+    private void addBooking(int id_us, int id_doc, String type) throws SQLException {
         Date date = new Date();
         Date dateForReturn = new Date();
         long additionalTime = 0;
+        Book book = new Book();
 
         switch (type) {
-            case "Patron":
+            case "Faculty":
                 additionalTime = FOUR_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
                 break;
             case "Student":
-                additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+                if (Documents.getDocType(id_doc).equals("BOOK") && book.isBestSeller(id_doc)) {
+                    additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+                } else {
+                    additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+                }
                 break;
             default:
                 throw new WrongMethodTypeException("User isn't \"Faculty\" or \"Patron\"");
         }
-
-        // Bestseller only for two week. For all Faculty
-        if (Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isBestSeller(Book.getBookID(idDoc))) {
-            additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
-        }
-
         dateForReturn.setTime(date.getTime() + additionalTime);
 
         java.sql.Timestamp bookingDate = new java.sql.Timestamp(date.getTime());
         java.sql.Timestamp timeForReturn = new java.sql.Timestamp(dateForReturn.getTime());
-        statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
-                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "'," + timeForReturn + ",FALSE )");
+        statement.executeUpdate("INSERT INTO booking_sys (id_users, id_doc, checkout_time, returntime) " +
+                "VALUES ('" + id_us + "','" + id_doc + "','" + bookingDate + "','" + timeForReturn + "')");
     }
 
-    public int iteratorDocuments(int idDoc) {
+    public int chooseDocumentObject(int idDoc) throws SQLException {
+        if (Documents.canCheckOut(idDoc)) {
+            return idDoc;
+        } else {
+            int idBook = Book.getBookID(idDoc);
+            System.out.println(idBook + " BookID");
+            resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idBook + "'");
+            while (resultSet.next()) {
+                idDoc = resultSet.getInt("id");
+                System.out.println(idDoc + " DocID");
+                System.out.println(Documents.canCheckOut(idDoc) + " " + idDoc);
+                if (Documents.canCheckOut(idDoc)) {
+
+                    return idDoc;
+                }
+            }
+        }
         return 0;
     }
 }

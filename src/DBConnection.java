@@ -3,11 +3,9 @@ import java.sql.DriverManager;
 import java.sql.*;
 public class DBConnection {
     Connection connection;
-   // String userName = "root";
-   // String password = "1234";
 
     // Put your URL here
-    String connectionUrl = "jdbc:sqlite:C:/Users/Алексей/Documents/GitHub/Gogol_Libraries/sources/gogollib.db";
+    String connectionUrl = "jdbc:sqlite:C:/Users/Алексей/IdeaProjects/Gogol_Libraries/sources/gogollib.db";
 
     /**
      * Loader of drivers
