@@ -1,14 +1,17 @@
 import org.omg.CORBA.OBJECT_NOT_EXIST;
 
+import java.lang.invoke.WrongMethodTypeException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Documents {
     final static String BOOK = "Book";
     final static String JOURNAL = "Journal";
     final static String AUDIO_VIDEO_MATERIALS = "Audio & Video materials";
+    final static int DOES_NOT_EXIST = 0;
 
     static ResultSet resultSet;
     static Statement statement;
@@ -144,4 +147,56 @@ public class Documents {
         }
         return isRef;
     }
+
+    public static int[] getAllDocId(int id, String type) throws SQLException{
+        System.out.println("Type " + type + " id : " + id);
+        ArrayList<Integer> idDocArrayList = new ArrayList<>();
+
+        resultSet =switchResultSet(id, type);
+        while (resultSet.next()){
+            idDocArrayList.add(resultSet.getInt("id"));
+        }
+
+        if (idDocArrayList.isEmpty()){
+            throw new OBJECT_NOT_EXIST("Document with this id doesn't exist");
+        }
+
+        int[] idDocArray = new int[idDocArrayList.size()];
+        for (int i = 0; i < idDocArray.length; i++) {
+            idDocArray[i] = idDocArrayList.get(i);
+        }
+        return idDocArray;
+    }
+
+    public static int getDocId(int id, String type) throws SQLException{
+        System.out.println("Type " + type + " id : " + id);
+        int idDoc = DOES_NOT_EXIST;
+
+        resultSet = switchResultSet(id, type);
+        if (resultSet.next()){
+            idDoc = resultSet.getInt("id");
+        }
+
+        if (idDoc == DOES_NOT_EXIST){
+            throw new OBJECT_NOT_EXIST("Document with this id doesn't exist");
+        }
+
+        return idDoc;
+    }
+
+    private static ResultSet switchResultSet (int id, String type) throws SQLException {
+        switch (type) {
+            case Documents.BOOK :
+                return statement.executeQuery("SELECT * FROM documents " + "WHERE id_book = '" + id + "'");
+            case Documents.JOURNAL :
+                return statement.executeQuery("SELECT * FROM documents " + "WHERE id_journal = '" + id + "'");
+            case Documents.AUDIO_VIDEO_MATERIALS :
+                return statement.executeQuery("SELECT * FROM documents " + "WHERE id_av = '" + id + "'");
+            default:
+                throw new WrongMethodTypeException("Type with id : " + id + " not a \"Book\", " +
+                        "\"Journal\" or \"AV materials\"");
+        }
+    }
+
+
 }
