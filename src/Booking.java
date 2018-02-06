@@ -25,8 +25,8 @@ public class Booking {
      * Insert user's and document's ID into booking table and
      * system gives unique ID to this booking transaction
      *
-     * @param idUser  id of user from user table
-     * @param idDoc id of document from document table
+     * @param idUser id of user from user table
+     * @param idDoc  id of document from document table
      * @throws SQLException
      */
     public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
@@ -42,8 +42,8 @@ public class Booking {
     /**
      * Insert user's and document's into to booking table
      *
-     * @param idUser  id of user from user table
-     * @param idDoc id of document from document table
+     * @param idUser id of user from user table
+     * @param idDoc  id of document from document table
      * @throws SQLException
      */
     private void addBooking(int idUser, int idDoc, String type) throws SQLException {
@@ -56,24 +56,26 @@ public class Booking {
                 additionalTime = FOUR_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
                 break;
             case "Student":
-                if (Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isBestSeller(Book.getBookID(idDoc))) {
-                    additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
-                } else {
-                    additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
-                }
+                additionalTime = THREE_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
                 break;
             default:
                 throw new WrongMethodTypeException("User isn't \"Faculty\" or \"Patron\"");
         }
+
+        // Bestseller only for two week. For all Faculty
+        if (Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isBestSeller(Book.getBookID(idDoc))) {
+            additionalTime = TWO_WEEKS_IN_SEC * CONVERT_SEC_IN_MILLISEC;
+        }
+
         dateForReturn.setTime(date.getTime() + additionalTime);
 
         java.sql.Timestamp bookingDate = new java.sql.Timestamp(date.getTime());
         java.sql.Timestamp timeForReturn = new java.sql.Timestamp(dateForReturn.getTime());
         statement.executeUpdate("INSERT INTO library.booking_sys (id_users, id_doc, checkout_time, returntime, isRenewed) " +
-                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "',"+ timeForReturn +",FALSE )");
+                "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "'," + timeForReturn + ",FALSE )");
     }
 
-    public int iteratorDocuments(int idDoc){
+    public int iteratorDocuments(int idDoc) {
         return 0;
     }
 }
