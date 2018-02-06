@@ -91,7 +91,7 @@ public class Documents {
         // for this idDoc we always have only one shelf? If no, chat me @HardLight
         while (resultSet.next()) {
             shelf = resultSet.getString("shelf");
-            System.out.println(shelf);
+            System.out.println("Shelf : " + shelf);
         }
 
         return shelf;

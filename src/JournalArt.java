@@ -41,7 +41,7 @@ public class JournalArt extends Documents {
                 "WHERE id ='" + idDoc + "'");
         while (resultSet.next()) {
             idJournal = resultSet.getInt("id_journal");
-            System.out.println(idJournal);
+            System.out.println("Journal id = " + idJournal);
         }
         if (idJournal == 0) {
             throw new NullPointerException("Something going wrong. This is not a Journal.");
