@@ -123,4 +123,25 @@ public class Book extends Documents {
             return false;
         }
     }
+
+    /**
+     * Query:
+     * true - if book is Reference book
+     * false - otherwise
+     *
+     * @param idBook id of the book from the books table
+     * @return true - if book is Reference book
+     * false - otherwise
+     * @throws SQLException
+     */
+    public static boolean isReference(int idBook) throws SQLException {
+        boolean isRef = false;
+        resultSet = statement.executeQuery("SELECT isReference FROM library.books " +
+                "WHERE id = '" + idBook + "'");
+        while (resultSet.next()) {
+            isRef = resultSet.getBoolean("isReference");
+            System.out.println("This book is Reference book - " + isRef);
+        }
+        return isRef;
+    }
 }
