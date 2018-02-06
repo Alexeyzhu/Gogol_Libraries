@@ -1,3 +1,5 @@
+import sun.plugin.dom.exception.WrongDocumentException;
+
 import javax.swing.text.Document;
 import java.lang.invoke.WrongMethodTypeException;
 import java.sql.*;
@@ -8,14 +10,21 @@ public class Booking {
     private final static long THREE_WEEKS_IN_SEC = 1814400;
     private final static long TWO_WEEKS_IN_SEC = 1209600;
     private final static int CONVERT_SEC_IN_MILLISEC = 1000;
+    private final static int ALL_CHECK_OUT = 0;
 
     private static Statement statement;
-    static ResultSet resultSet;
+    private static ResultSet resultSet;
+
+    // Create statement
+    static {
+        try {
+            statement = new DBConnection().setConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     Booking() throws SQLException {
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.setConnection();
-        statement = connection.createStatement();
     }
 
     /**
@@ -29,10 +38,15 @@ public class Booking {
     public boolean checkOut(int idUser, int idDoc, String type) throws SQLException {
         // checks if this book is available
         idDoc = chooseDocumentObject(idDoc);
-        if (idDoc == 0) {
+        if (idDoc == ALL_CHECK_OUT) {
             throw new NullPointerException("There is no such book or all of them are checked out");
         }
+
+        boolean isReferenceBook = Documents.getDocType(idDoc).equals(Documents.BOOK) && Book.isReference(idDoc);
         if (Documents.canCheckOut(idDoc)) {
+            if (isReferenceBook){
+                throw new WrongDocumentException("You try check out reference book");
+            }
             Documents.setCanCheckout(idDoc, false);
             addBooking(idUser, idDoc, type);
             return true;
@@ -72,19 +86,45 @@ public class Booking {
         if (Documents.canCheckOut(idDoc)) {
             return idDoc;
         } else {
-            int idBook = Book.getBookID(idDoc);
-            System.out.println(idBook + " BookID");
-            resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idBook + "'");
-            while (resultSet.next()) {
-                idDoc = resultSet.getInt("id");
-                System.out.println(idDoc + " DocID");
-                System.out.println(Documents.canCheckOut(idDoc) + " " + idDoc);
-                if (Documents.canCheckOut(idDoc)) {
+            int newIdDoc = ALL_CHECK_OUT;
+            switch (Documents.getDocType(idDoc)) {
+                case Documents.BOOK:
+                    int idBook = Book.getBookID(idDoc);
+                    System.out.println("Book id = " + idBook);
 
-                    return idDoc;
-                }
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idBook + "'");
+                    while (resultSet.next()) {
+                        newIdDoc = resultSet.getInt("id");
+                    }
+                    break;
+                case Documents.JOURNAL:
+                    int idJournal = JournalArt.getJournalID(idDoc);
+                    System.out.println("Journal id = " + idJournal);
+
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_journal = '" + idJournal + "'");
+                    while (resultSet.next()) {
+                        newIdDoc = resultSet.getInt("id");
+                    }
+                    break;
+                case Documents.AUDIO_VIDEO_MATERIALS:
+                    int idAV = AV.getAVID(idDoc);
+                    System.out.println("AV id = " + idAV);
+
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idAV + "'");
+                    while (resultSet.next()) {
+                        newIdDoc = resultSet.getInt("id");
+                    }
+                    break;
+                default:
+                    throw new WrongMethodTypeException("Document with this id " + idDoc + " not a \"Book\", " +
+                            "\"Journal\" or \"AV materials\"");
+            }
+
+            System.out.println(Documents.getDocType(newIdDoc) + " id = " + newIdDoc + " can check out : " + Documents.canCheckOut(idDoc));
+            if (Documents.canCheckOut(newIdDoc)) {
+                return newIdDoc;
             }
         }
-        return 0;
+        return ALL_CHECK_OUT;
     }
 }
