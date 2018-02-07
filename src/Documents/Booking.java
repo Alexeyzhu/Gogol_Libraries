@@ -70,7 +70,6 @@ public class Booking {
         }
 
         long additionalTime;
-        boolean ch = Book.isBestSeller(Book.getBookID(idDoc));
         if (Documents.getDocType(idDoc).equals(Documents.BOOK)) {
             if (Book.isBestSeller(Book.getBookID(idDoc))) {
                 additionalTime = TWO_WEEKS_IN_MILLISECONDS;
@@ -161,14 +160,17 @@ public class Booking {
             }
            // System.out.println(Documents.getDocType(idDoc) + " id = " + idSearch);
 
-            int newIdDoc = ALL_CHECK_OUT;
+            int[] newIdDoc = new int[10];
+            int i = 0;
             while (resultSet.next()) {
-                newIdDoc = resultSet.getInt("id");
+                newIdDoc[i] = resultSet.getInt("id");
+                i++;
             }
            // System.out.println(Documents.getDocType(newIdDoc) + " id = " + newIdDoc + " can check out : " + Documents.canCheckOut(idDoc));
-
-            if (Documents.canCheckOut(newIdDoc)) {
-                return newIdDoc;
+            for (int j = 0; j < newIdDoc.length; j++) {
+                if (Documents.canCheckOut(newIdDoc[j])) {
+                    return newIdDoc[j];
+                }
             }
         }
         return ALL_CHECK_OUT;
