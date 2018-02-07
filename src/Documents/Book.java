@@ -83,8 +83,10 @@ public class Book extends Documents {
     }
 
     /**
-     * @param idDoc
-     * @return
+     * get pair {name, author} of book according document id
+     *
+     * @param idDoc - document id
+     * @return pair {name, author}
      * @throws SQLException
      */
     public static String[] getBookName(int idDoc) throws SQLException {

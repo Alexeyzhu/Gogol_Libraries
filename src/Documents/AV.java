@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 public class AV extends Documents {
     /**
+     * Add new Audio or Video material t Library
      *
      * @param title
      * @param author
@@ -30,6 +31,13 @@ public class AV extends Documents {
 
     }
 
+    /**
+     * return AV id according document id
+     *
+     * @param idDoc - document id
+     * @return AV id
+     * @throws SQLException
+     */
     public static int getAVID(int idDoc) throws SQLException {
         final int AV_DOES_NOT_EXIST = 0;
 
@@ -49,6 +57,13 @@ public class AV extends Documents {
         return idAV;
     }
 
+    /**
+     * get pair {title, author} according document id
+     *
+     * @param idDoc - document id
+     * @return pair {title, author}
+     * @throws SQLException
+     */
     public static String[] getAVName(int idDoc) throws SQLException {
         int idAV = getAVID(idDoc);
 

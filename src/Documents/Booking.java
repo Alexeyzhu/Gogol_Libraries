@@ -89,6 +89,15 @@ public class Booking {
                 "VALUES ('" + idUser + "','" + idDoc + "','" + bookingDate + "','" + timeForReturn + "', 0 )");
     }
 
+    /**
+     * check is patron already has this document or it copy
+     *
+     * @param idUser - patron id
+     * @param idDoc - document id
+     * @return true if patron already has this document or it copy
+     *      otherwise false
+     * @throws SQLException
+     */
     private static boolean isAlreadyHas(int idUser, int idDoc) throws SQLException {
         resultSet = statement.executeQuery("SELECT * FROM booking_sys WHERE id_users = '" + idUser + "'");
         while (resultSet.next()){
@@ -121,7 +130,14 @@ public class Booking {
         return false;
     }
 
-    public static int chooseDocumentObject(int idDoc) throws SQLException {
+    /**
+     * return acceptable id document identical input id document or ALL_CHECK_OUT if all identical document already check out
+     *
+     * @param idDoc document id
+     * @return acceptable id document
+     * @throws SQLException
+     */
+    private static int chooseDocumentObject(int idDoc) throws SQLException {
         if (Documents.canCheckOut(idDoc)) {
             return idDoc;
         } else {
