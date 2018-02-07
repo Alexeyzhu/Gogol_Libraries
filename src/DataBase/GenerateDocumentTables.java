@@ -14,6 +14,12 @@ public class GenerateDocumentTables {
         }
     }
 
+    /**
+     * Creates 5 tables:
+     * Documents,AV,Journal Articles, Books, Booking System
+     *
+     * @throws SQLException
+     */
     public void createDocumentTables() throws SQLException {
 
         statement.executeUpdate("CREATE TABLE av " +
@@ -66,6 +72,12 @@ public class GenerateDocumentTables {
 
     }
 
+    /**
+     * Fills by information 5 tables:
+     * Documents,AV,Journal Articles, Books, Booking System
+     *
+     * @throws SQLException
+     */
     public void fillDocumentTables() throws SQLException {
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller) " +
                 "VALUES('Book','Rudyard Kipling','AST', 3, 2008, 0) ");

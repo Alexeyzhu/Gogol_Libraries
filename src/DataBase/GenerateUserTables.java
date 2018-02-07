@@ -14,6 +14,11 @@ public class GenerateUserTables {
         }
     }
 
+    /**
+     * Create Users table and fills it by information
+     *
+     * @throws SQLException
+     */
     public void createUserTable() throws SQLException {
         statement.executeUpdate("CREATE TABLE users " +
                 "(" +
