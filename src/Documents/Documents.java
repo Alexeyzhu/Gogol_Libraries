@@ -30,6 +30,13 @@ public class Documents {
         }
     }
 
+    /**
+     * return name and author's name of document
+     *
+     * @param idDoc
+     * @return array of 2 elements: name and author's name
+     * @throws SQLException
+     */
     public static String[] getDocumentName(int idDoc) throws SQLException {
         String type = getDocType(idDoc);
         switch (type) {
@@ -153,6 +160,14 @@ public class Documents {
         return isRef;
     }
 
+    /**
+     * return the array of IDs of copies of one document
+     *
+     * @param id
+     * @param type
+     * @return
+     * @throws SQLException
+     */
     public static int[] getAllDocId(int id, String type) throws SQLException{
        // System.out.println("Type " + type + " id : " + id);
         ArrayList<Integer> idDocArrayList = new ArrayList<>();
