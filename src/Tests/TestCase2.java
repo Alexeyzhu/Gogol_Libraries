@@ -21,11 +21,9 @@ public class TestCase2 {
         userTables.createUserTable();
 
         Librarians lib = new Librarians();
-        Documents documents = new Documents();
         Patrons patrons = new Patrons();
-        Booking booking = new Booking();
 
-        booking.checkOut(patrons.getID("f.galeev","1111111"),15, documents.getDocType(15));
+        Booking.checkOut(patrons.getID("f.galeev","1111111"),15, Documents.getDocType(15));
 
 
     }

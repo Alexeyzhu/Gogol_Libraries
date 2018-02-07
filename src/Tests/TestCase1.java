@@ -24,14 +24,11 @@ public class TestCase1 {
         userTables.createUserTable();
 
         Librarians lib = new Librarians();
-        Documents documents = new Documents();
         Patrons patrons = new Patrons();
-        Booking booking = new Booking();
 
-        booking.checkOut(patrons.getID("f.galeev","1111111"),3, documents.getDocType(3));
+        Booking.checkOut(patrons.getID("f.galeev","1111111"),3, Documents.getDocType(3));
         lib.getBookedDoc();
-        lib.checkSameBook(3, documents.getDocType(3));
-
+        lib.checkSameBook(3, Documents.getDocType(3));
 
     }
 }
