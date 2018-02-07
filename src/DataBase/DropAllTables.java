@@ -14,6 +14,11 @@ public class DropAllTables {
         }
     }
 
+    /**
+     * Delete all tables from the database
+     *
+     * @throws SQLException
+     */
     public void dropAllTables() throws SQLException {
         statement.executeUpdate("DROP TABLE av");
         statement.executeUpdate("DROP TABLE books");
