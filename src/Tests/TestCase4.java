@@ -26,10 +26,8 @@ public class TestCase4 {
         Patrons f = new Faculty();
         Patrons s = new Student();
         Librarians l = new Librarians();
-        Booking booking = new Booking();
-        Documents documents = new Documents();
 
-        booking.checkOut(f.getID("f.galeev","1111111"),2, documents.getDocType(2));
+        Booking.checkOut(f.getID("f.galeev","1111111"),2, Documents.getDocType(2));
         l.getBookedDoc();
     }
 }
