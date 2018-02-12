@@ -99,6 +99,9 @@ public class GenerateDocumentTables {
                 "VALUES (3,'B1D') ");
         statement.executeUpdate("INSERT INTO documents (id_book, shelf) " +
                 "VALUES (3,'B2D') ");
+        statement.executeUpdate("INSERT INTO documents (id_book, shelf) " +
+                "VALUES (3,'B3D') ");
+
         statement.executeUpdate("INSERT INTO documents (id_av, shelf) " +
                 "VALUES (1,'AV1') ");
         statement.executeUpdate("INSERT INTO documents (id_journals, shelf) " +

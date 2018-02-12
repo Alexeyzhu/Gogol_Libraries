@@ -27,7 +27,9 @@ public class TestCase1 {
         Patrons patrons = new Patrons();
 
         Booking.checkOut(patrons.getID("f.galeev","1111111"),3, Documents.getDocType(3));
+
         lib.getBookedDoc();
+
         lib.checkSameBook(3, Documents.getDocType(3));
 
     }
