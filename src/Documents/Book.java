@@ -15,25 +15,26 @@ public class Book extends Documents {
      * @param editionYear
      * @param isBestSeller
      * @param shelf        where will be book
-     * @param canCheckout  false for special books
      * @throws SQLException
      */
     public static void addBook(String name, String author, String publisher,
                                String edition, String editionYear,
                                boolean isBestSeller, String shelf,
-                               boolean canCheckout, boolean isReference) throws SQLException, InstanceAlreadyExistsException {
-
-        // Get exception if we already have this book on this shelf
-        resultSet = statement.executeQuery("SELECT shelf FROM library.books WHERE name = '" + name +
-                "' AND author = '" + author + "' AND publisher = '" + publisher + "' AND edition = '" + edition +
-                "' AND edition_year = '" + editionYear + "' AND isBestseller = " + isBestSeller +
-                " AND isReference = " + isReference + "");
-        while (resultSet.next()) {
-            if (resultSet.getNString("shelf").equals(shelf)) {
-                throw new InstanceAlreadyExistsException("This book already on this shelf");
-            }
+                               boolean isReference) throws SQLException, InstanceAlreadyExistsException {
+// TODO delete after tests before D2
+//          Get exception if we already have this book on this shelf
+//        resultSet = statement.executeQuery("SELECT * FROM books WHERE name = '" + name +
+//                "' AND author = '" + author + "' AND publisher = '" + publisher + "' AND edition = '" + edition +
+//                "' AND edition_year = '" + editionYear + "' AND isBestseller = " + isBestSeller +
+//                " AND isReference = " + isReference + "");
+//        while (resultSet.next()) {
+//            if (resultSet.getNString("shelf").equals(shelf)) {
+//                throw new InstanceAlreadyExistsException("This book already on this shelf");
+//            }
+//        }
+        if (isExistBook(name, author, publisher, edition, editionYear, isBestSeller, shelf, isReference)){
+            throw new InstanceAlreadyExistsException("Such book is already exist");
         }
-
         int idBook = 0;
         statement.executeUpdate("INSERT INTO books (name, author, publisher, edition, edition_year, isBestSeller, isReference) " +
                 "VALUES ('" + name + "','" + author + "','" + publisher + "'," +
@@ -46,9 +47,24 @@ public class Book extends Documents {
             idBook = resultSet.getInt("id");
         }
 
-        statement.executeUpdate("INSERT INTO documents (id_book,shelf, canCheckout)" +
-                "VALUES (" + idBook + ",'" + shelf + "'," + canCheckout + ")");
+        statement.executeUpdate("INSERT INTO documents (id_book,shelf)" +
+                "VALUES (" + idBook + ",'" + shelf + "')");
 
+    }
+
+    public static boolean isExistBook(String name, String author, String publisher,
+                               String edition, String editionYear,
+                               boolean isBestSeller, String shelf, boolean isReference) throws SQLException {
+        int idBook = 0;
+        resultSet = statement.executeQuery("SELECT * FROM books WHERE name = '" + name +
+                "' AND author = '" + author + "' AND publisher = '" + publisher + "' AND edition = '" + edition +
+                "' AND edition_year = '" + editionYear + "' AND isBestseller = " + isBestSeller +
+                " AND isReference = " + isReference + "");
+
+        while (resultSet.next()) {
+            idBook = resultSet.getInt("id");
+        }
+        return idBook != 0;
     }
 
     /**
@@ -69,9 +85,9 @@ public class Book extends Documents {
         // can you transform 'id_book' to constant?
         while (resultSet.next()) {
             id_book = resultSet.getInt("id_book");
-           // System.out.println("Documents.Book id = " + id_book);
+            // System.out.println("Documents.Book id = " + id_book);
 
-           // System.out.println("Documents.Book id = " + id_book);
+            // System.out.println("Documents.Book id = " + id_book);
 
         }
 
@@ -120,7 +136,7 @@ public class Book extends Documents {
                     "WHERE id = '" + idBook + "'");
             while (resultSet.next()) {
                 isBest = resultSet.getBoolean("isBestSeller");
-              //  System.out.println("This book is BestSeller - " + isBest);
+                //  System.out.println("This book is BestSeller - " + isBest);
             }
             return isBest;
         } else {
