@@ -2,7 +2,7 @@ package Documents;
 
 import DataBase.DBConnection;
 import Users.Users;
-import DataBase.DBConnection;
+import com.sun.xml.internal.bind.v2.TODO;
 import sun.plugin.dom.exception.WrongDocumentException;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -41,6 +41,7 @@ public class Booking {
         idDoc = chooseDocumentObject(idDoc);
 
         if (idDoc == ALL_CHECK_OUT) {
+//            TODO return exception
             //throw new NullPointerException("There is no such book or all of them are checked out");
             System.out.println("There is no such book or all of them are checked out");
             System.out.println();
@@ -152,26 +153,22 @@ public class Booking {
                     break;
                 case Documents.AUDIO_VIDEO_MATERIALS:
                     idSearch = AV.getAVID(idDoc);
-                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_book = '" + idSearch + "'");
+                    resultSet = statement.executeQuery("SELECT * FROM documents WHERE id_av = '" + idSearch + "'");
                     break;
                 default:
                     throw new WrongMethodTypeException("Document with this id " + idDoc + " not a \"Documents.Book\", " +
                             "\"Journal\" or \"Documents.AV materials\"");
             }
-           // System.out.println(Documents.getDocType(idDoc) + " id = " + idSearch);
 
-            int[] newIdDoc = new int[10];
-            int i = 0;
+            int newIdDoc;
             while (resultSet.next()) {
-                newIdDoc[i] = resultSet.getInt("id");
-                i++;
-            }
-           // System.out.println(Documents.getDocType(newIdDoc) + " id = " + newIdDoc + " can check out : " + Documents.canCheckOut(idDoc));
-            for (int j = 0; j < newIdDoc.length; j++) {
-                if (Documents.canCheckOut(newIdDoc[j])) {
-                    return newIdDoc[j];
+                newIdDoc = resultSet.getInt("id");
+                if (Documents.canCheckOut(newIdDoc)){
+                    statement.close();
+                    return newIdDoc;
                 }
             }
+
         }
         return ALL_CHECK_OUT;
     }
